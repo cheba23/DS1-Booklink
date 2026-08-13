@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pagina principal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css')}}">
 </head>
 <body>
-    <h1>Trabalho</h1>
-    <p>Livro</p>
+    <div class="container">
+        <h1>Sistema Back-End</h1>
+        <p>Projeto Pratico de DSI</p>
+        <hr>
+        <a href="/cadastro" class="btn"> Abrir Formulario</a>
+    </div>
 </body>
 </html>

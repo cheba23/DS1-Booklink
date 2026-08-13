@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina principal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css')}}">
+</head>
+<body>
+    <div class="container">
+        <h2>Registro Processado</h2>
+
+        <p><strong>Nome Recebido: </strong> {{ nome }}</p>
+        <p><strong>Informação Recebido: </strong> {{ info }}</p>
+
+        <hr>
+        <a href="/cadastro" class="btn">Cadastrar Novamente</a>
+        <br><br>
+        <a href="/">Voltar ao inicio</a>
+
+    </div>
+</body>
+</html>

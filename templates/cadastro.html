@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css')}}">
+</head>
+<body>
+    <div class="container">
+        <h2>Novo Cadastro</h2>
+        <form action="/salvar" method="post">
+
+            <label for="campo_nome">Nome principal</label>
+            <input type="text" id="campo_nome" name="campo_nome" placeholder="DIgite seu Nome..." required>
+
+            <label for="campo_info">Informações: </label>
+            <input type="text" id="campo_info" name="campo_info" placeholder="Digite uma Informação" required>
+
+            <button type="submit">Salvar</button>
+        </form>
+
+        <hr>
+        <a href="/">Voltar para a página anterior</a>
+
+    </div>
+</body>
+</html>
