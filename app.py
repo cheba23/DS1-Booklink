@@ -14,7 +14,7 @@ def pagina_cadastro():
     return render_template("cadastro.html")
 
 # Rota 3: Status da aplicação
-@app.route('/salvar', metchods= ["POST"])
+@app.route('/salvar', methods= ["POST"])
 def salvar_cadastro():
     nome_digitado = request.form.get("campo_nome")
     info_digitada = request.form.get("campo_info")
