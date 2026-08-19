@@ -7,22 +7,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css')}}">
 </head>
 <body>
+
     <div class="container">
-        <h2>Novo Cadastro</h2>
-        <form action="/salvar" method="post">
+        <form action="/salvar" method="POST">
 
-            <label for="campo_nome">Nome principal</label>
-            <input type="text" id="campo_nome" name="campo_nome" placeholder="DIgite seu Nome..." required>
+            <label for="campo_livro">Livro</label>
+            <input type="text" id="" name="campo_livro" placeholder="Digite o nome do livro..." required>
 
-            <label for="campo_info">Informações: </label>
-            <input type="text" id="campo_info" name="campo_info" placeholder="Digite uma Informação" required>
+            <label for="campo_tipoLivro">Gênero do Livro</label>
+            <input type="text" id="" name="campo_tipoLivro" placeholder="Digite o Gênero do livro..." required>
 
             <button type="submit">Salvar</button>
+    
         </form>
 
         <hr>
-        <a href="/">Voltar para a página anterior</a>
-
+        <a href="/">Voltar a página anterior</a>
     </div>
+
+    
 </body>
 </html>
