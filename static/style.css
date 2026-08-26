@@ -1,143 +1,159 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    font-family: Arial, sans-serif;
-    background: #f2f4f7;
-    color: #222;
-    min-height: 100vh;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 30px auto;
+    max-width: 750px;
+    background-color: #f0f2f5;
+    color: #333333;
 }
 
-
-/* ===== CONTAINER ===== */
+ 
 
 .container {
-    background: white;
-    width: 90%;
-    max-width: 500px;
-    padding: 40px;
-    border-radius: 12px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+ 
 
+/* Grid dos Cards de Métricas */
+.cards-grid {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+ 
+
+.card {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
     text-align: center;
 }
 
+ 
 
-/* ===== TÍTULOS ===== */
-
-h1 {
-    color: #2563eb;
-    font-size: 40px;
-    margin-bottom: 10px;
+.card h3 {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+    text-transform: uppercase;
 }
 
-h2 {
-    color: #2563eb;
-    margin-bottom: 25px;
-}
+ 
 
-p {
-    margin: 10px 0;
-    font-size: 17px;
-}
-
-
-/* ===== LINHA ===== */
-
-hr {
-    border: none;
-    border-top: 1px solid #ddd;
-    margin: 25px 0;
-}
-
-
-/* ===== LINKS / BOTÕES ===== */
-
-a,
-button {
-    display: inline-block;
-
-    background: #2563eb;
-    color: white;
-
-    text-decoration: none;
-    border: none;
-    border-radius: 8px;
-
-    padding: 12px 20px;
-
-    font-size: 16px;
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-a:hover,
-button:hover {
-    background: #1d4ed8;
-    transform: translateY(-2px);
-}
-
-
-/* ===== FORMULÁRIO ===== */
-
-form {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-
-label {
+.card .numero {
+    font-size: 22px;
     font-weight: bold;
-    margin-bottom: 7px;
+    color: #007bff;
+    margin: 8px 0 0 0;
+}
+
+ 
+
+/* Formulário de Busca */
+.search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+ 
+
+.search-form input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+ 
+
+/* Formatação da Tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 15px;
 }
 
-input {
-    padding: 12px;
+ 
 
-    border: 1px solid #ccc;
-    border-radius: 8px;
-
-    font-size: 15px;
-    outline: none;
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-input:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+ 
+
+th {
+    background-color: #f8f9fa;
 }
 
-form button {
-    margin-top: 25px;
+ 
+
+/* Estilo das Badges de Status */
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
 }
 
+ 
 
-/* ===== LINKS DE VOLTAR ===== */
+.badge-warning { background-color: #ffeba2; color: #856404; }
+.badge-success { background-color: #d4edda; color: #155724; }
 
-.container > a:not(.button):not(.btn) {
-    background: transparent;
-    color: #2563eb;
-    padding: 5px;
+ 
+
+/* Botões */
+.btn, button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 14px;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-.container > a:not(.button):not(.btn):hover {
-    background: transparent;
-    color: #1d4ed8;
-    transform: none;
+ 
+
+.btn-action {
+    background-color: #6c757d;
+    color: #fff;
+    padding: 4px 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 11px;
 }
 
+ 
 
-/* ===== INFORMAÇÕES DO RESULTADO ===== */
-
-strong {
-    color: #2563eb;
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 4px 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 11px;
 }
+
+ 
+
+.btn-clear {
+    color: #dc3545;
+    text-decoration: none;
+    align-self: center;
+    font-size: 12px;
+}
+
+ 
+
+hr { border: 0; height: 1px; background: #e0e0e0; margin: 20px 0; }
+
