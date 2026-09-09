@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <main class="auth-container">
+
+        <section class="auth-card">
+
+            <div class="auth-header">
+                <h1>Entrar</h1>
+                <p>Acesse sua conta</p>
+            </div>
+
+            {% if login_incorreto %}
+                <p class="form-error">{{ login_incorreto }}</p>
+            {% endif %}
+
+            <form action="" method="post" class="auth-form">
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+
+                    <input
+                        type="email"
+                        name="emailForm"
+                        id="email"
+                        placeholder="Digite seu e-mail"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+
+                    <input
+                        type="password"
+                        name="senhaForm"
+                        id="senha"
+                        placeholder="Digite sua senha"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    Entrar
+                </button>
+
+            </form>
+
+            <div class="auth-footer">
+                <p>
+                    Ainda não possui uma conta?
+                    <a href="{{ url_for('registrar_user') }}">
+                        Criar conta
+                    </a>
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
+

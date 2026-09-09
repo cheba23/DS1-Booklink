@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Registrar Gênero
+{% endblock %}
+
+
+{% block content %}
+
+    <h1 class="titulo-pagina">
+        Registrar Gênero
+    </h1>
+
+
+    {% if erro %}
+
+        <p class="mensagem-erro">
+            {{ erro }}
+        </p>
+
+    {% endif %}
+
+
+    <form
+        class="formulario"
+        action=""
+        method="post"
+    >
+
+        <div class="campo">
+
+            <label for="nome">
+                Nome:
+            </label>
+
+            <input
+                type="text"
+                name="nomeForm"
+                id="nome"
+            >
+
+        </div>
+
+
+        <input
+            type="submit"
+            class="botao botao-adicionar"
+            value="Registrar"
+        >
+
+    </form>
+
+{% endblock %}

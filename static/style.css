@@ -1,159 +1,1463 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 30px auto;
-    max-width: 750px;
-    background-color: #f0f2f5;
-    color: #333333;
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
- 
+
+/* =========================================
+   CORES DO TEMA
+========================================= */
+
+:root {
+    --creme: #f7efd9;
+    --creme-escuro: #ead9b5;
+    --papel: #fffaf0;
+
+    --marrom: #4a2d0d;
+    --marrom-escuro: #2d1b08;
+    --marrom-claro: #79501c;
+
+    --dourado: #d19a18;
+    --dourado-claro: #e7bd52;
+    --dourado-hover: #b9820d;
+
+    --verde: #52724d;
+    --vermelho: #a44747;
+
+    --cinza: #756b5c;
+    --borda: #e5c985;
+
+    --sombra: rgba(74, 45, 13, 0.15);
+}
+
+
+/* =========================================
+   BODY
+========================================= */
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    color: var(--marrom);
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(221, 187, 112, 0.35),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #f9f1df,
+            #f4e7c9
+        );
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header {
+    width: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #4a2d0d,
+            #3a230a,
+            #4a2d0d
+        );
+
+    border-bottom: 3px solid var(--dourado);
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.20);
+}
+
+.header-container {
+    width: 100%;
+    max-width: 1250px;
+
+    margin: 0 auto;
+
+    padding: 14px 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+
+/* =========================================
+   LOGO
+========================================= */
+
+.logo {
+    color: #f4d477;
+
+    text-decoration: none;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 29px;
+    font-weight: bold;
+
+    white-space: nowrap;
+
+    text-shadow:
+        0 2px 3px rgba(0, 0, 0, 0.3);
+
+    transition: 0.2s ease;
+}
+
+.logo:hover {
+    color: #ffe49a;
+}
+
+
+/* =========================================
+   NAVEGAÇÃO
+========================================= */
+
+.nav {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    flex-wrap: wrap;
+}
+
+.nav a {
+    position: relative;
+
+    color: #fff7df;
+
+    text-decoration: none;
+
+    padding: 12px 15px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    font-weight: bold;
+
+    border-radius: 5px;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+.nav a:hover {
+    color: #f5d36c;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+
+/* =========================================
+   CONTAINER PRINCIPAL
+========================================= */
 
 .container {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
- 
-
-/* Grid dos Cards de Métricas */
-.cards-grid {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
- 
-
-.card {
-    flex: 1;
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 6px;
-    border: 1px solid #e0e0e0;
-    text-align: center;
-}
-
- 
-
-.card h3 {
-    margin: 0;
-    font-size: 13px;
-    color: #666;
-    text-transform: uppercase;
-}
-
- 
-
-.card .numero {
-    font-size: 22px;
-    font-weight: bold;
-    color: #007bff;
-    margin: 8px 0 0 0;
-}
-
- 
-
-/* Formulário de Busca */
-.search-form {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
- 
-
-.search-form input[type="text"] {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
- 
-
-/* Formatação da Tabela */
-table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
+    max-width: 1180px;
+
+    margin: 28px auto;
+
+    padding: 38px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fffdf7,
+            #fff8e9
+        );
+
+    border: 1px solid #e5d2a5;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 30px rgba(74, 45, 13, 0.12);
+
+    flex: 1;
 }
 
- 
 
-th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
+/* =========================================
+   TÍTULOS
+========================================= */
+
+h1 {
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 42px;
+
+    color: var(--marrom);
+
+    margin-bottom: 12px;
+
+    letter-spacing: -1px;
 }
 
- 
+h1::after {
+    content: "";
 
-th {
-    background-color: #f8f9fa;
+    display: block;
+
+    width: 78px;
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--dourado),
+            #e5bb4e
+        );
+
+    margin-top: 12px;
+
+    border-radius: 5px;
 }
 
- 
+h2 {
+    font-family: Georgia, "Times New Roman", serif;
 
-/* Estilo das Badges de Status */
-.badge {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 11px;
+    font-size: 27px;
+
+    margin: 30px 0 18px;
+
+    color: var(--marrom);
+}
+
+h3 {
+    color: var(--marrom-claro);
+}
+
+
+/* =========================================
+   LINKS
+========================================= */
+
+a {
+    transition: all 0.2s ease;
+}
+
+
+/* =========================================
+   MENU DA HOME
+========================================= */
+
+.menu {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-top: 30px;
+}
+
+
+/* =========================================
+   BOTÕES
+========================================= */
+
+.botao {
+    display: inline-block;
+
+    padding: 12px 18px;
+
+    border: 1px solid transparent;
+
+    border-radius: 7px;
+
+    text-decoration: none;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.botao:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 12px var(--sombra);
+}
+
+
+/* =========================================
+   BOTÃO PRINCIPAL
+========================================= */
+
+.botao-adicionar {
+    background:
+        linear-gradient(
+            135deg,
+            #4d2f0c,
+            #6b430e
+        );
+
+    color: #fff7dc;
+
+    border-color: #6f4a17;
+}
+
+.botao-adicionar:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #c18c14,
+            #d9aa32
+        );
+
+    color: white;
+}
+
+
+/* =========================================
+   BOTÃO EDITAR
+========================================= */
+
+.botao-editar {
+    background: #f1e4c9;
+
+    color: var(--marrom);
+
+    border-color: #dfc995;
+}
+
+.botao-editar:hover {
+    background: var(--dourado);
+
+    color: white;
+}
+
+
+/* =========================================
+   BOTÃO DELETAR
+========================================= */
+
+.botao-deletar {
+    background: #f5e2e2;
+
+    color: var(--vermelho);
+
+    border-color: #e5bcbc;
+}
+
+.botao-deletar:hover {
+    background: var(--vermelho);
+
+    color: white;
+}
+
+
+/* =========================================
+   BOTÃO BUSCAR
+========================================= */
+
+.botao-buscar {
+    background:
+        linear-gradient(
+            135deg,
+            #bd8611,
+            #d19a18
+        );
+
+    color: white;
+
+    border-color: #b9820d;
+}
+
+.botao-buscar:hover {
+    background: var(--dourado-hover);
+}
+
+
+/* =========================================
+   BUSCA
+========================================= */
+
+.form-busca {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 25px 0;
+}
+
+.form-busca input[type="text"] {
+    flex: 1;
+
+    padding: 13px 16px;
+
+    border: 1px solid #ddc99b;
+
+    border-radius: 8px;
+
+    background: #fffdf8;
+
+    color: var(--marrom);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-busca input[type="text"]:focus {
+    border-color: var(--dourado);
+
+    box-shadow:
+        0 0 0 3px rgba(209, 154, 24, 0.15);
+}
+
+
+/* =========================================
+   FORMULÁRIOS
+========================================= */
+
+.formulario {
+    width: 100%;
+
+    max-width: 650px;
+
+    margin-top: 30px;
+}
+
+.campo {
+    margin-bottom: 20px;
+}
+
+.campo label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    color: var(--marrom-claro);
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+
+    padding: 13px 16px;
+
+    border: 1px solid #ddc99b;
+
+    border-radius: 8px;
+
+    background: #fffdf8;
+
+    color: var(--marrom);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: var(--dourado);
+
+    box-shadow:
+        0 0 0 3px rgba(209, 154, 24, 0.15);
+}
+
+.formulario > .botao {
+    margin-top: 5px;
+}
+
+
+/* =========================================
+   MENSAGEM DE ERRO
+========================================= */
+
+.mensagem-erro {
+    max-width: 650px;
+
+    margin-top: 20px;
+
+    padding: 12px 15px;
+
+    border: 1px solid #e7caca;
+
+    border-radius: 8px;
+
+    background: #f8e8e8;
+
+    color: var(--vermelho);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 14px;
+
     font-weight: bold;
 }
 
- 
 
-.badge-warning { background-color: #ffeba2; color: #856404; }
-.badge-success { background-color: #d4edda; color: #155724; }
+/* =========================================
+   TABELA
+========================================= */
 
- 
+.tabela {
+    width: 100%;
 
-/* Botões */
-.btn, button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 8px 14px;
-    text-decoration: none;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    margin-top: 25px;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    overflow: hidden;
+
+    border: 1px solid #dfca9b;
+
+    border-radius: 10px;
+
+    background: #fffdf8;
+
+    font-family: Arial, sans-serif;
 }
 
- 
 
-.btn-action {
-    background-color: #6c757d;
-    color: #fff;
-    padding: 4px 8px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 11px;
+/* =========================================
+   CABEÇALHO DA TABELA
+========================================= */
+
+.tabela thead {
+    background:
+        linear-gradient(
+            90deg,
+            #4a2d0d,
+            #5c380e
+        );
+
+    color: #fff7df;
 }
 
- 
+.tabela th {
+    padding: 16px;
 
-.btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-    padding: 4px 8px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 11px;
+    text-align: left;
+
+    font-size: 13px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.6px;
 }
 
- 
 
-.btn-clear {
-    color: #dc3545;
-    text-decoration: none;
-    align-self: center;
+/* =========================================
+   CORPO DA TABELA
+========================================= */
+
+.tabela td {
+    padding: 15px;
+
+    border-top: 1px solid #eadcc0;
+
+    font-size: 14px;
+
+    color: #514840;
+}
+
+.tabela tbody tr {
+    transition: background 0.2s ease;
+}
+
+.tabela tbody tr:hover {
+    background: #fcf3dd;
+}
+
+
+/* =========================================
+   AÇÕES DA TABELA
+========================================= */
+
+.acoes {
+    white-space: nowrap;
+}
+
+.acoes .botao {
+    padding: 8px 12px;
+
+    margin: 2px;
+
     font-size: 12px;
 }
 
- 
 
-hr { border: 0; height: 1px; background: #e0e0e0; margin: 20px 0; }
+/* =========================================
+   DASHBOARD / CARDS DA HOME
+========================================= */
 
+.cards-grid {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.card {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    min-height: 145px;
+
+    padding: 25px 35px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fffdf7,
+            #f8edd5
+        );
+
+    border: 1px solid #e5ca8d;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 3px 10px rgba(74, 45, 13, 0.08);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* barra dourada lateral */
+
+.card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 7px;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            180deg,
+            #d69d13,
+            #bd850d
+        );
+}
+
+
+/* efeito hover */
+
+.card:hover {
+    transform: translateX(5px);
+
+    box-shadow:
+        0 8px 20px rgba(74, 45, 13, 0.15);
+}
+
+
+/* =========================================
+   TÍTULO DO CARD
+========================================= */
+
+.card h3 {
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 27px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+
+    color: #70410d;
+
+    margin-bottom: 6px;
+}
+
+
+/* =========================================
+   NÚMERO DO CARD
+========================================= */
+
+.numero {
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    color: #8a570d;
+
+    margin-bottom: 2px;
+}
+
+
+/* =========================================
+   BADGES
+========================================= */
+
+.badge {
+    display: inline-block;
+
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.badge-success {
+    background: #e3f0e6;
+
+    color: var(--verde);
+}
+
+.badge-warning {
+    background: #f5ead3;
+
+    color: #8a682c;
+}
+
+
+/* =========================================
+   LINHA
+========================================= */
+
+hr {
+    border: 0;
+
+    border-top: 1px solid #e5d5b4;
+
+    margin: 28px 0;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer {
+    width: 100%;
+
+    margin-top: auto;
+
+    padding: 25px 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #3a230a,
+            #4a2d0d,
+            #3a230a
+        );
+
+    color: #e7c968;
+
+    text-align: center;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+
+    border-top: 3px solid var(--dourado);
+}
+
+
+/* =========================================
+   LOGIN / CADASTRO
+========================================= */
+
+.auth-container {
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+.auth-card {
+    width: 100%;
+
+    max-width: 420px;
+
+    padding: 35px;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fffdf8,
+            #f7ecd5
+        );
+
+    border: 1px solid #e3c98f;
+
+    box-shadow:
+        0 10px 35px rgba(74, 45, 13, 0.15);
+}
+
+.auth-header {
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+.auth-header h1 {
+    margin-bottom: 8px;
+
+    font-size: 30px;
+}
+
+.auth-header p {
+    margin: 0;
+
+    color: #777;
+}
+
+
+/* =========================================
+   FORMULÁRIO DE LOGIN
+========================================= */
+
+.auth-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.form-group label {
+    font-weight: 600;
+
+    color: var(--marrom);
+}
+
+.form-group input {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #d8c49b;
+
+    border-radius: 8px;
+
+    background: #fffdf8;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--dourado);
+
+    box-shadow:
+        0 0 0 3px rgba(209, 154, 24, 0.12);
+}
+
+
+/* =========================================
+   BOTÃO PRIMÁRIO
+========================================= */
+
+.btn-primary {
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4a2d0d,
+            #6b430e
+        );
+
+    color: #fff8df;
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #bd8611,
+            #d19a18
+        );
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   MENSAGEM DE ERRO DO LOGIN
+========================================= */
+
+.form-error {
+    padding: 10px;
+
+    margin-bottom: 20px;
+
+    border-radius: 8px;
+
+    background-color: #ffe5e5;
+
+    color: #c62828;
+
+    text-align: center;
+
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================================
+   RODAPÉ DO LOGIN / CADASTRO
+========================================= */
+
+.auth-footer {
+    margin-top: 25px;
+
+    text-align: center;
+}
+
+.auth-footer p {
+    margin: 0;
+
+    color: #666;
+}
+
+.auth-footer a {
+    color: #8a570d;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    color: var(--dourado-hover);
+
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   USUÁRIO LOGADO
+========================================= */
+
+.user-area {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-left: 15px;
+
+    padding-left: 15px;
+
+    border-left: 1px solid rgba(231, 189, 82, 0.5);
+}
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d19a18,
+            #a8730b
+        );
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.user-info {
+    display: flex;
+
+    flex-direction: column;
+
+    line-height: 1.2;
+}
+
+.user-info span {
+    font-size: 12px;
+
+    color: #fff2cf;
+}
+
+.user-info strong {
+    font-size: 14px;
+
+    color: #e7bd52;
+}
+
+
+/* =========================================
+   BOTÃO LOGOUT
+========================================= */
+
+.logout-btn {
+    margin-left: 8px;
+
+    padding: 8px 15px;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    border: 1px solid #d19a18;
+
+    color: #fff3d1 !important;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.logout-btn:hover {
+    background: var(--dourado);
+
+    color: white !important;
+}
+
+
+/* =========================================
+   TABELA DE USUÁRIOS
+========================================= */
+
+.table-container {
+    width: 100%;
+
+    overflow-x: auto;
+
+    margin-top: 25px;
+}
+
+.table-container table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background-color: #fffdf8;
+
+    border: 1px solid #dfca9b;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    font-family: Arial, sans-serif;
+}
+
+.table-container th {
+    text-align: left;
+
+    padding: 16px 18px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            90deg,
+            #4a2d0d,
+            #5c380e
+        );
+
+    color: #fff7df;
+}
+
+.table-container td {
+    padding: 16px 18px;
+
+    font-size: 14px;
+
+    color: #514840;
+
+    border-top: 1px solid #eadcc0;
+}
+
+.table-container tr:hover {
+    background-color: #fcf3dd;
+}
+
+
+/* =========================================
+   BOTÃO TORNAR ADM
+========================================= */
+
+.btn-admin {
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4a2d0d,
+            #6b430e
+        );
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.btn-admin:hover {
+    background: var(--dourado);
+}
+
+
+/* =========================================
+   BOTÃO REMOVER ADM
+========================================= */
+
+.btn-remover-admin {
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    background: var(--vermelho);
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.btn-remover-admin:hover {
+    background: #8f1c13;
+}
+
+/* =========================================
+   BOTÃO EXCLUIR USUÁRIO
+========================================= */
+
+.btn-deletar {
+
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #b52b20,
+            #8f1c13
+        );
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+
+}
+
+.btn-deletar:hover {
+
+    background:
+        linear-gradient(
+            135deg,
+            #8f1c13,
+            #70140e
+        );
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .header-container {
+        gap: 15px;
+    }
+
+    .logo {
+        font-size: 25px;
+    }
+
+    .nav a {
+        padding: 9px 10px;
+        font-size: 14px;
+    }
+}
+
+
+@media (max-width: 900px) {
+
+    .header-container {
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 15px;
+    }
+
+    .nav {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+    .container {
+        margin: 20px 15px;
+
+        width: calc(100% - 30px);
+
+        padding: 30px 22px;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .nav {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        width: 100%;
+    }
+
+    .nav a {
+        text-align: center;
+    }
+
+    .user-area {
+        margin-left: 0;
+
+        padding-left: 0;
+
+        border-left: none;
+    }
+
+    .form-busca {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .form-busca .botao {
+        width: 100%;
+
+        text-align: center;
+    }
+
+    .tabela {
+        display: block;
+
+        overflow-x: auto;
+
+        white-space: nowrap;
+    }
+
+    .menu {
+        flex-direction: column;
+    }
+
+    .menu .botao {
+        width: 100%;
+
+        text-align: center;
+    }
+
+    .card {
+        min-height: 125px;
+
+        padding: 22px 25px;
+    }
+
+    .card h3 {
+        font-size: 23px;
+    }
+
+    .numero {
+        font-size: 25px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .header-container {
+        padding: 15px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .container {
+        margin: 12px 8px;
+
+        width: calc(100% - 16px);
+
+        padding: 25px 18px;
+
+        border-radius: 12px;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    .card {
+        min-height: 115px;
+
+        padding: 20px;
+    }
+
+    .card h3 {
+        font-size: 20px;
+    }
+
+    .numero {
+        font-size: 23px;
+    }
+
+    .footer {
+        padding: 20px 15px;
+    }
+}

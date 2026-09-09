@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Sistema de Livraria{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div class="header-container">
+
+            <a href="{{ url_for('home') }}" class="logo">
+                📚 BOOKLINK
+            </a>
+
+            <nav class="nav">
+
+                <a href="{{ url_for('home') }}">
+                    Início
+                </a>
+
+                <a href="{{ url_for('livros') }}">
+                    Livros
+                </a>
+
+                <a href="{{ url_for('generos') }}">
+                    Gêneros
+                </a>
+
+                <a href="{{ url_for('registrar') }}">
+                    Registrar Livro
+                </a>
+
+                <a href="{{ url_for('usuarios') }}">
+                    Usuarios
+                </a>
+
+                {% if current_user.is_authenticated %}
+
+                    <div class="user-area">
+
+                        <div class="user-avatar">
+                            {{ current_user.nome[0]|upper }}
+                        </div>
+
+                        <div class="user-info">
+                            <span>Olá,</span>
+                            <strong>{{ current_user.nome }}</strong>
+                        </div>
+
+                        <a href="{{ url_for('logout') }}" class="logout-btn">
+                            Sair
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTEÚDO DA PÁGINA -->
+
+    <main class="container">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <p>
+            © 2026 Sistema de Livraria
+        </p>
+
+        <p>
+            Projeto desenvolvido para fins acadêmicos
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

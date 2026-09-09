@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}
+Início
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Sistema de Livraria
+</h1>
+
+<div class="dashboard">
+
+    <div class="dashboard-card">
+        <div class="card-icone">📚</div>
+
+        <div class="card-info">
+            <h2>LIVROS</h2>
+            <p class="card-numero">{{ total_livros }}</p>
+            <p>Livros cadastrados</p>
+        </div>
+    </div>
+
+
+    <div class="dashboard-card">
+        <div class="card-icone">📦</div>
+
+        <div class="card-info">
+            <h2>ESTOQUE</h2>
+            <p class="card-numero">{{ total_estoque }}</p>
+            <p>Livros disponíveis</p>
+        </div>
+    </div>
+
+
+    <div class="dashboard-card">
+        <div class="card-icone">👥</div>
+
+        <div class="card-info">
+            <h2>USUÁRIOS</h2>
+            <p class="card-numero">{{ total_usuarios }}</p>
+            <p>Usuários cadastrados</p>
+        </div>
+    </div>
+
+
+    <div class="dashboard-card">
+        <div class="card-icone">🛒</div>
+
+        <div class="card-info">
+            <h2>VENDAS</h2>
+            <p class="card-numero">{{ total_vendas }}</p>
+            <p>Vendas realizadas</p>
+        </div>
+    </div>
+
+
+    <div class="dashboard-card">
+        <div class="card-icone">💰</div>
+
+        <div class="card-info">
+            <h2>FATURAMENTO</h2>
+            <p class="card-numero">R$ {{ faturamento }}</p>
+            <p>Valor total das vendas</p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

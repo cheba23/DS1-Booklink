@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}
+Registrar Livro
+{% endblock %}
+
+
+{% block content %}
+
+    <h1 class="titulo-pagina">
+        Registrar Livro
+    </h1>
+
+
+    {% if erro %}
+
+        <p class="mensagem-erro">
+            {{ erro }}
+        </p>
+
+    {% endif %}
+
+
+    <form
+        class="formulario"
+        action=""
+        method="post"
+    >
+
+        <div class="campo">
+
+            <label for="titulo">
+                Título:
+            </label>
+
+            <input
+                type="text"
+                name="tituloForm"
+                id="titulo"
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="autor">
+                Autor:
+            </label>
+
+            <input
+                type="text"
+                name="autorForm"
+                id="autor"
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="preco">
+                Preço:
+            </label>
+
+            <input
+                type="number"
+                name="precoForm"
+                id="preco"
+                step="0.01"
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="estoque">
+                Estoque:
+            </label>
+
+            <input
+                type="number"
+                name="estoqueForm"
+                id="estoque"
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="genero">
+                Gênero:
+            </label>
+
+            <select
+                name="genero_id"
+                id="genero"
+            >
+
+                {% for genero in generos %}
+
+                    <option value="{{ genero.id }}">
+                        {{ genero.nome }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <input
+            type="submit"
+            class="botao botao-adicionar"
+            value="Cadastrar"
+        >
+
+    </form>
+
+{% endblock %}

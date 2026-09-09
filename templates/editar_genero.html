@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Editar Gênero
+{% endblock %}
+
+
+{% block content %}
+
+    <h1 class="titulo-pagina">
+        Editar Gênero
+    </h1>
+
+
+    {% if erro %}
+
+        <p class="mensagem-erro">
+            {{ erro }}
+        </p>
+
+    {% endif %}
+
+
+    <form
+        class="formulario"
+        method="post"
+    >
+
+        <div class="campo">
+
+            <label for="nome">
+                Nome:
+            </label>
+
+            <input
+                type="text"
+                name="nomeForm"
+                id="nome"
+                value="{{ genero.nome }}"
+            >
+
+        </div>
+
+
+        <input
+            type="submit"
+            class="botao botao-editar"
+            value="Editar"
+        >
+
+    </form>
+
+{% endblock %}
