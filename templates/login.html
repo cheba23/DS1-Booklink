@@ -6,70 +6,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login</title>
+    <title>BookLink - Login</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
-    <main class="auth-container">
+    <header class="header">
 
-        <section class="auth-card">
+        <div class="header-container">
 
-            <div class="auth-header">
-                <h1>Entrar</h1>
-                <p>Acesse sua conta</p>
-            </div>
+            <a href="{{ url_for('home') }}" class="logo">
+                BookLink
+            </a>
 
-            {% if login_incorreto %}
-                <p class="form-error">{{ login_incorreto }}</p>
-            {% endif %}
+        </div>
 
-            <form action="" method="post" class="auth-form">
+    </header>
 
-                <div class="form-group">
-                    <label for="email">E-mail</label>
 
-                    <input
-                        type="email"
-                        name="emailForm"
-                        id="email"
-                        placeholder="Digite seu e-mail"
-                        required
-                    >
+    <main class="container">
+
+        <section class="auth-container">
+
+            <div class="auth-card">
+
+                <div class="auth-header">
+
+                    <h1>Entrar</h1>
+
+                    <p>
+                        Acesse o sistema BookLink
+                    </p>
+
                 </div>
 
-                <div class="form-group">
-                    <label for="senha">Senha</label>
 
-                    <input
-                        type="password"
-                        name="senhaForm"
-                        id="senha"
-                        placeholder="Digite sua senha"
-                        required
-                    >
-                </div>
+                {% if erro %}
+                    <div class="mensagem-erro">
+                        {{ erro }}
+                    </div>
+                {% endif %}
 
-                <button type="submit" class="btn-primary">
-                    Entrar
-                </button>
 
-            </form>
+                <form
+                    action="{{ url_for('auth.login') }}"
+                    method="POST"
+                >
 
-            <div class="auth-footer">
-                <p>
-                    Ainda não possui uma conta?
-                    <a href="{{ url_for('registrar_user') }}">
-                        Criar conta
-                    </a>
-                </p>
+                    <div class="campo">
+
+                        <label for="email">
+                            E-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            name="emailForm"
+                            id="email"
+                            placeholder="Digite seu e-mail"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="senha">
+                            Senha
+                        </label>
+
+                        <input
+                            type="password"
+                            name="senhaForm"
+                            id="senha"
+                            placeholder="Digite sua senha"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="menu">
+
+                        <button
+                            type="submit"
+                            class="botao botao-adicionar"
+                        >
+                            Entrar
+                        </button>
+
+
+                        <a
+                            href="{{ url_for('home') }}"
+                            class="botao botao-buscar"
+                        >
+                            Voltar
+                        </a>
+
+                    </div>
+
+                </form>
+
             </div>
 
         </section>
 
     </main>
+
+
+    <footer class="footer">
+
+        <p>
+            &copy; 2026 BookLink - Sistema de Administração de Livrarias
+        </p>
+
+    </footer>
 
 </body>
 

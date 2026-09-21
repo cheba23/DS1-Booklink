@@ -1,0 +1,171 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+Nova Venda
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Nova Venda
+</h1>
+
+
+<!-- BOTÃO DO HISTÓRICO -->
+
+<div class="venda-botoes">
+
+    <a
+        href="{{ url_for('vendas.historico_vendas') }}"
+        class="botao"
+    >
+        Histórico de Vendas
+    </a>
+
+</div>
+
+
+{% if venda %}
+
+    <div class="venda-em-andamento">
+
+        <h2>
+            Venda em andamento
+        </h2>
+
+
+        <p>
+            <strong>Cliente:</strong>
+
+            {% if comprador %}
+                {{ comprador.nome }}
+            {% else %}
+                Cliente não cadastrado
+            {% endif %}
+        </p>
+
+
+        {% for item in itens %}
+
+            <div class="item-venda">
+
+                <h3>
+                    {{ item.livro.titulo }}
+                </h3>
+
+                <p>
+                    <strong>Autor:</strong>
+                    {{ item.livro.autor }}
+                </p>
+
+                <p>
+                    <strong>Quantidade:</strong>
+                    {{ item.quantidade }}
+                </p>
+
+                <p>
+                    <strong>Preço unitário:</strong>
+                    R$ {{ "%.2f"|format(item.livro.preco) }}
+                </p>
+
+                <p>
+                    <strong>Subtotal:</strong>
+                    R$ {{ "%.2f"|format(item.subtotal) }}
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+
+        <h2>
+            Total:
+            R$ {{ "%.2f"|format(total) }}
+        </h2>
+
+
+        <div class="venda-botoes">
+
+            {% if comprador %}
+
+                <a
+                    href="{{ url_for(
+                        'vendas.selecionar_livros',
+                        comprador_id=comprador.id
+                    ) }}"
+                    class="botao"
+                >
+                    Adicionar outro livro
+                </a>
+
+            {% else %}
+
+                <a
+                    href="{{ url_for(
+                        'vendas.selecionar_livros_sem_cadastro'
+                    ) }}"
+                    class="botao"
+                >
+                    Adicionar outro livro
+                </a>
+
+            {% endif %}
+
+
+            <a
+                href="{{ url_for('vendas.revisar_venda') }}"
+                class="botao botao-adicionar"
+            >
+                Revisar venda
+            </a>
+
+        </div>
+
+    </div>
+
+
+{% else %}
+
+
+    <div class="venda-opcoes">
+
+        <h2>
+            Como deseja continuar?
+        </h2>
+
+
+        <div class="venda-botoes">
+
+            <a
+                href="{{ url_for('vendas.selecionar_cliente') }}"
+                class="botao"
+            >
+                Cliente cadastrado
+            </a>
+
+
+            <a
+                href="{{ url_for('compradores.registrar_compradores') }}"
+                class="botao"
+            >
+                Novo cadastro
+            </a>
+
+
+            <a
+                href="{{ url_for('vendas.venda_sem_cadastro') }}"
+                class="botao"
+            >
+                Compra sem cadastro
+            </a>
+
+        </div>
+
+    </div>
+
+
+{% endif %}
+
+{% endblock %}
+

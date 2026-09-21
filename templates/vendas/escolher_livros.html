@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}
+Selecionar Livro
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Selecionar Livro
+</h1>
+
+
+{% if sem_cadastro %}
+
+    <h2>
+        Venda sem cadastro
+    </h2>
+
+{% else %}
+
+    <h2>
+        Venda para: {{ comprador.nome }}
+    </h2>
+
+{% endif %}
+
+
+<form
+    method="GET"
+
+    {% if sem_cadastro %}
+
+        action="{{ url_for(
+            'vendas.selecionar_livros_sem_cadastro'
+        ) }}"
+
+    {% else %}
+
+        action="{{ url_for(
+            'vendas.selecionar_livros'
+        ) }}"
+
+    {% endif %}
+>
+
+
+{% if not sem_cadastro %}
+
+    <input
+        type="hidden"
+        name="comprador_id"
+        value="{{ comprador.id }}"
+    >
+
+{% endif %}
+
+
+<div class="campo">
+
+    <label for="busca">
+        Buscar livro
+    </label>
+
+    <input
+        type="text"
+        id="busca"
+        name="busca"
+        placeholder="Título, autor ou gênero"
+        value="{{ request.args.get('busca', '') }}"
+    >
+
+</div>
+
+
+<button
+    type="submit"
+    class="botao"
+>
+    Buscar
+</button>
+
+</form>
+
+
+{% if livros %}
+
+
+<h2>
+    Livros encontrados
+</h2>
+
+
+<div class="table-container">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Livro</th>
+                <th>Autor</th>
+                <th>Gênero</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Ação</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for livro in livros %}
+
+                <tr>
+
+                    <td>
+                        {{ livro.titulo }}
+                    </td>
+
+                    <td>
+                        {{ livro.autor }}
+                    </td>
+
+                    <td>
+                        {{ livro.genero.nome }}
+                    </td>
+
+                    <td>
+                        R$ {{ "%.2f"|format(livro.preco) }}
+                    </td>
+
+                    <td>
+                        {{ livro.estoque }}
+                    </td>
+
+                    <td>
+
+                        {% if sem_cadastro %}
+
+                            <a
+                                href="{{ url_for(
+                                    'vendas.selecionar_livro_sem_cadastro',
+                                    livro_id=livro.id
+                                ) }}"
+                                class="botao botao-editar"
+                            >
+                                Selecionar
+                            </a>
+
+                        {% else %}
+
+                            <a
+                                href="{{ url_for(
+                                    'vendas.selecionar_livro',
+                                    comprador_id=comprador.id,
+                                    livro_id=livro.id
+                                ) }}"
+                                class="botao botao-editar"
+                            >
+                                Selecionar
+                            </a>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+{% elif request.args.get('busca') %}
+
+    <p>
+        Nenhum livro encontrado.
+    </p>
+
+{% endif %}
+
+{% endblock %}

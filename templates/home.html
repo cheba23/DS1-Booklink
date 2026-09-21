@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BookLink - Administração de Livrarias</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="header-container">
+
+            <a href="{{ url_for('home') }}" class="logo">
+                BookLink
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <section class="auth-container">
+
+            <div class="auth-card">
+
+                <div class="auth-header">
+
+                    <h1>BookLink</h1>
+
+                    <p>
+                        Sistema de administração de livrarias
+                    </p>
+
+                </div>
+
+
+                <div class="menu">
+
+                    <a
+                        href="{{ url_for('empresa.registrar_empresa') }}"
+                        class="botao botao-adicionar"
+                    >
+                        Registrar Empresa
+                    </a>
+
+
+                    <a
+                        href="{{ url_for('auth.login') }}"
+                        class="botao botao-buscar"
+                    >
+                        Entrar
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <p>
+            &copy; 2026 BookLink - Sistema de Administração de Livrarias
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
+

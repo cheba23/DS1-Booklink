@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}
+Selecionar Cliente
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Selecionar Cliente
+</h1>
+
+<h2>
+    Cliente cadastrado
+</h2>
+
+<form method="GET" action="{{ url_for('vendas.selecionar_cliente') }}">
+
+    <div class="campo">
+
+        <label for="busca">
+            Buscar cliente
+        </label>
+
+        <input
+            type="text"
+            id="busca"
+            name="busca"
+            placeholder="Nome, e-mail ou telefone"
+            value="{{ request.args.get('busca', '') }}"
+        >
+
+    </div>
+
+    <button
+        type="submit"
+        class="botao"
+    >
+        Buscar
+    </button>
+
+</form>
+
+
+{% if compradores %}
+
+    <h2>
+        Clientes encontrados
+    </h2>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Ação</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for comprador in compradores %}
+
+                    <tr>
+
+                        <td>
+                            {{ comprador.nome }}
+                        </td>
+
+                        <td>
+                            {{ comprador.email }}
+                        </td>
+
+                        <td>
+                            {{ comprador.telefone }}
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="{{ url_for(
+                                    'vendas.selecionar_livros',
+                                    comprador_id=comprador.id
+                                ) }}"
+                                class="botao botao-editar"
+                            >
+                                Selecionar
+                            </a>
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+{% elif request.args.get('busca') %}
+
+    <p>
+        Nenhum cliente encontrado.
+    </p>
+
+{% endif %}
+
+{% endblock %}
+

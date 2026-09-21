@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}
+Detalhes da Venda #{{ venda.id }}
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Venda #{{ venda.id }}
+</h1>
+
+
+<div class="venda-detalhes">
+
+    <p>
+        <strong>Cliente:</strong>
+
+        {% if venda.comprador %}
+            {{ venda.comprador.nome }}
+        {% else %}
+            Cliente não cadastrado
+        {% endif %}
+    </p>
+
+
+    <p>
+        <strong>Funcionário:</strong>
+        {{ venda.usuario.nome }}
+    </p>
+
+
+    <p>
+        <strong>Data:</strong>
+        {{ venda.data_venda.strftime('%d/%m/%Y às %H:%M') }}
+    </p>
+
+</div>
+
+
+<h2>
+    Livros da venda
+</h2>
+
+
+<div class="table-container">
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Livro</th>
+                <th>Quantidade</th>
+                <th>Preço unitário</th>
+                <th>Subtotal</th>
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for item in venda.itens %}
+
+                <tr>
+
+                    <td>
+                        {{ item.livro.titulo }}
+                    </td>
+
+                    <td>
+                        {{ item.quantidade }}
+                    </td>
+
+                    <td>
+                        R$ {{ "%.2f"|format(item.preco_unitario) }}
+                    </td>
+
+                    <td>
+                        R$ {{ "%.2f"|format(item.subtotal) }}
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<div class="venda-total">
+
+    <strong>
+        Total da venda:
+    </strong>
+
+    R$ {{ "%.2f"|format(venda.total) }}
+
+</div>
+
+
+<a
+    href="{{ url_for('vendas.historico_vendas') }}"
+    class="botao"
+>
+    Voltar para o histórico
+</a>
+
+{% endblock %}

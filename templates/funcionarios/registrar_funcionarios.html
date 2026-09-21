@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}
+Registrar Funcionário
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h1 class="titulo-pagina">
+        Registrar Funcionário
+    </h1>
+
+    {% if erro %}
+        <p class="mensagem-erro">
+            {{ erro }}
+        </p>
+    {% endif %}
+
+    <form
+        action="{{ url_for('funcionarios.registrar_funcionario') }}"
+        method="POST"
+    >
+
+        <label for="nomeForm">
+            Nome
+        </label>
+
+        <input
+            type="text"
+            name="nomeForm"
+            id="nomeForm"
+            placeholder="Nome do funcionário"
+        >
+
+
+        <label for="emailForm">
+            E-mail
+        </label>
+
+        <input
+            type="email"
+            name="emailForm"
+            id="emailForm"
+            placeholder="E-mail do funcionário"
+        >
+
+
+        <label for="senhaForm">
+            Senha
+        </label>
+
+        <input
+            type="password"
+            name="senhaForm"
+            id="senhaForm"
+            placeholder="Senha do funcionário"
+        >
+
+
+        <button
+            type="submit"
+            class="botao botao-adicionar"
+        >
+            Registrar Funcionário
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

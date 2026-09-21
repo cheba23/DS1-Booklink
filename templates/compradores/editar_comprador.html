@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}
+Editar comprador
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Editar comprador
+</h1>
+
+<form method="POST">
+
+    <div class="campo">
+
+        <label for="nomeForm">
+            Nome
+        </label>
+
+        <input
+            type="text"
+            id="nomeForm"
+            name="nomeForm"
+            value="{{ comprador.nome }}"
+        >
+
+    </div>
+
+
+    <div class="campo">
+
+        <label for="emailForm">
+            E-mail
+        </label>
+
+        <input
+            type="email"
+            id="emailForm"
+            name="emailForm"
+            value="{{ comprador.email }}"
+        >
+
+    </div>
+
+
+    <div class="campo">
+
+        <label for="telefoneForm">
+            Telefone
+        </label>
+
+        <input
+            type="text"
+            id="telefoneForm"
+            name="telefoneForm"
+            value="{{ comprador.telefone }}"
+        >
+
+    </div>
+
+
+    {% if erro %}
+
+        <p class="mensagem-erro">
+            {{ erro }}
+        </p>
+
+    {% endif %}
+
+
+    <button
+        type="submit"
+        class="botao"
+    >
+        Salvar alterações
+    </button>
+
+</form>
+
+{% endblock %}

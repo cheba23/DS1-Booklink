@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}
+Funcionários
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Funcionários
+</h1>
+
+
+<!-- BUSCA -->
+
+<form
+    method="GET"
+    action="{{ url_for('funcionarios.listar_funcionarios') }}"
+>
+
+    <div class="campo">
+
+        <input
+            type="text"
+            name="busca"
+            placeholder="Buscar por nome ou e-mail"
+            value="{{ busca }}"
+        >
+
+    </div>
+
+    <button
+        type="submit"
+        class="botao"
+    >
+        Buscar
+    </button>
+
+</form>
+
+
+<br>
+
+
+<a
+    class="botao botao-adicionar"
+    href="{{ url_for('funcionarios.registrar_funcionario') }}"
+>
+    + Registrar Funcionário
+</a>
+
+
+<br>
+<br>
+
+
+{% if busca %}
+
+    <p>
+        Resultados para:
+        <strong>{{ busca }}</strong>
+    </p>
+
+{% endif %}
+
+
+<table class="tabela">
+
+    <thead>
+
+        <tr>
+
+            <th>ID</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Tipo</th>
+            <th>Data de cadastro</th>
+            <th>Ações</th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+        {% for funcionario in funcionarios %}
+
+        <tr>
+
+            <td>
+                {{ funcionario.id }}
+            </td>
+
+
+            <td>
+                {{ funcionario.nome }}
+            </td>
+
+
+            <td>
+                {{ funcionario.email }}
+            </td>
+
+
+            <td>
+                {{ funcionario.tipo }}
+            </td>
+
+
+            <td>
+                {{ funcionario.data_cadastro.strftime(
+                    '%d/%m/%Y %H:%M'
+                ) }}
+            </td>
+
+
+            <td>
+
+                {% if current_user.tipo == 'dono'
+                    or funcionario.id == current_user.id %}
+
+                    <a
+                        class="botao botao-editar"
+                        href="{{ url_for(
+                            'funcionarios.editar_funcionarios',
+                            id=funcionario.id
+                        ) }}"
+                    >
+                        Editar
+                    </a>
+
+                {% endif %}
+
+
+                {% if current_user.tipo == 'dono' %}
+
+                    {% if funcionario.tipo == 'funcionario' %}
+
+                        <a
+                            class="botao botao-editar"
+                            href="{{ url_for(
+                                'funcionarios.tornar_admin',
+                                id=funcionario.id
+                            ) }}"
+                        >
+                            Tornar Administrador
+                        </a>
+
+                    {% elif funcionario.tipo == 'admin_empresa' %}
+
+                        <a
+                            class="botao botao-editar"
+                            href="{{ url_for(
+                                'funcionarios.tornar_funcionario',
+                                id=funcionario.id
+                            ) }}"
+                        >
+                            Tornar Funcionário
+                        </a>
+
+                    {% endif %}
+
+
+                    {% if funcionario.tipo in [
+                        'funcionario',
+                        'admin_empresa'
+                    ] %}
+
+                        <a
+                            class="botao botao-deletar"
+                            href="{{ url_for(
+                                'funcionarios.deletar_funcionario',
+                                id=funcionario.id
+                            ) }}"
+                            onclick="return confirm(
+                                'Tem certeza que deseja excluir este usuário?'
+                            )"
+                        >
+                            Excluir
+                        </a>
+
+                    {% endif %}
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+        {% else %}
+
+        <tr>
+
+            <td colspan="6">
+
+                {% if busca %}
+                    Nenhum funcionário encontrado.
+                {% else %}
+                    Nenhum funcionário cadastrado.
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

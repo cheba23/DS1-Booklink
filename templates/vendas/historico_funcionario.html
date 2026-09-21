@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}
+Vendas de {{ funcionario.nome }}
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Vendas do Funcionário
+</h1>
+
+
+<div class="venda-detalhes">
+
+    <p>
+        <strong>Nome:</strong>
+        {{ funcionario.nome }}
+    </p>
+
+    <p>
+        <strong>E-mail:</strong>
+        {{ funcionario.email }}
+    </p>
+
+    <p>
+        <strong>Tipo:</strong>
+        {{ funcionario.tipo }}
+    </p>
+
+</div>
+
+
+<h2>
+    Vendas realizadas
+</h2>
+
+
+{% if vendas %}
+
+<div class="table-container">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Venda</th>
+                <th>Cliente</th>
+                <th>Data</th>
+                <th>Total</th>
+                <th>Ações</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for venda in vendas %}
+
+            <tr>
+
+                <td>
+                    #{{ venda.id }}
+                </td>
+
+
+                <td>
+
+                    {% if venda.comprador %}
+
+                        {{ venda.comprador.nome }}
+
+                    {% else %}
+
+                        Cliente não cadastrado
+
+                    {% endif %}
+
+                </td>
+
+
+                <td>
+                    {{ venda.data_venda.strftime(
+                        '%d/%m/%Y às %H:%M'
+                    ) }}
+                </td>
+
+
+                <td>
+                    R$ {{ "%.2f"|format(venda.total) }}
+                </td>
+
+
+                <td>
+
+                    <a
+                        href="{{ url_for(
+                            'vendas.detalhes_venda',
+                            venda_id=venda.id
+                        ) }}"
+                        class="botao"
+                    >
+                        Ver detalhes
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+<p>
+    Este funcionário ainda não realizou nenhuma venda.
+</p>
+
+{% endif %}
+
+
+<br>
+
+<a
+    href="{{ url_for('vendas.buscar_funcionarios_historico') }}"
+    class="botao"
+>
+    Voltar para funcionários
+</a>
+
+<a
+    href="{{ url_for('vendas.historico_vendas') }}"
+    class="botao"
+>
+    Voltar para o histórico
+</a>
+
+
+{% endblock %}

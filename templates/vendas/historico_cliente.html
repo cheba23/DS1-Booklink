@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}
+Compras de {{ cliente.nome }}
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Histórico do Cliente
+</h1>
+
+
+<div class="venda-detalhes">
+
+    <p>
+        <strong>Nome:</strong>
+        {{ cliente.nome }}
+    </p>
+
+    <p>
+        <strong>E-mail:</strong>
+        {{ cliente.email }}
+    </p>
+
+    <p>
+        <strong>Telefone:</strong>
+
+        {% if cliente.telefone %}
+            {{ cliente.telefone }}
+        {% else %}
+            Não informado
+        {% endif %}
+
+    </p>
+
+</div>
+
+
+<h2>
+    Compras realizadas
+</h2>
+
+
+{% if vendas %}
+
+<div class="table-container">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Venda</th>
+                <th>Data</th>
+                <th>Funcionário</th>
+                <th>Total</th>
+                <th>Ações</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for venda in vendas %}
+
+            <tr>
+
+                <td>
+                    #{{ venda.id }}
+                </td>
+
+                <td>
+                    {{ venda.data_venda.strftime(
+                        '%d/%m/%Y às %H:%M'
+                    ) }}
+                </td>
+
+                <td>
+                    {{ venda.usuario.nome }}
+                </td>
+
+                <td>
+                    R$ {{ "%.2f"|format(venda.total) }}
+                </td>
+
+                <td>
+
+                    <a
+                        href="{{ url_for(
+                            'vendas.detalhes_venda',
+                            venda_id=venda.id
+                        ) }}"
+                        class="botao"
+                    >
+                        Ver detalhes
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<h2>
+    Total gasto
+</h2>
+
+<p>
+    <strong>
+        R$ {{ "%.2f"|format(total_gasto) }}
+    </strong>
+</p>
+
+
+{% else %}
+
+<p>
+    Este cliente ainda não possui compras registradas.
+</p>
+
+{% endif %}
+
+
+<br>
+
+<a
+    href="{{ url_for('vendas.buscar_clientes_historico') }}"
+    class="botao"
+>
+    Voltar para clientes
+</a>
+
+<a
+    href="{{ url_for('vendas.historico_vendas') }}"
+    class="botao"
+>
+    Voltar para o histórico
+</a>
+
+
+{% endblock %}

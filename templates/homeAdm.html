@@ -10,61 +10,376 @@ Início
     Sistema de Livraria
 </h1>
 
+
 <div class="dashboard">
 
+
+    <!-- LIVROS -->
+
     <div class="dashboard-card">
-        <div class="card-icone">📚</div>
+
+        <div class="card-icone">
+            📚
+        </div>
 
         <div class="card-info">
-            <h2>LIVROS</h2>
-            <p class="card-numero">{{ total_livros }}</p>
-            <p>Livros cadastrados</p>
+
+            <h2>
+                LIVROS
+            </h2>
+
+            <p class="card-numero">
+                {{ total_livros }}
+            </p>
+
+            <p>
+                Livros cadastrados
+            </p>
+
         </div>
+
     </div>
 
 
+    <!-- ESTOQUE -->
+
     <div class="dashboard-card">
-        <div class="card-icone">📦</div>
+
+        <div class="card-icone">
+            📦
+        </div>
 
         <div class="card-info">
-            <h2>ESTOQUE</h2>
-            <p class="card-numero">{{ total_estoque }}</p>
-            <p>Livros disponíveis</p>
+
+            <h2>
+                ESTOQUE
+            </h2>
+
+            <p class="card-numero">
+                {{ total_estoque }}
+            </p>
+
+            <p>
+                Unidades disponíveis
+            </p>
+
         </div>
+
     </div>
 
 
+    <!-- ESTOQUE BAIXO -->
+
     <div class="dashboard-card">
-        <div class="card-icone">👥</div>
+
+        <div class="card-icone">
+            ⚠️
+        </div>
 
         <div class="card-info">
-            <h2>USUÁRIOS</h2>
-            <p class="card-numero">{{ total_usuarios }}</p>
-            <p>Usuários cadastrados</p>
+
+            <h2>
+                ESTOQUE BAIXO
+            </h2>
+
+            <p class="card-numero">
+                {{ livros_estoque_baixo }}
+            </p>
+
+            <p>
+                Livros com até 5 unidades
+            </p>
+
         </div>
+
     </div>
 
 
+    <!-- CLIENTES -->
+
     <div class="dashboard-card">
-        <div class="card-icone">🛒</div>
+
+        <div class="card-icone">
+            👥
+        </div>
 
         <div class="card-info">
-            <h2>VENDAS</h2>
-            <p class="card-numero">{{ total_vendas }}</p>
-            <p>Vendas realizadas</p>
+
+            <h2>
+                CLIENTES
+            </h2>
+
+            <p class="card-numero">
+                {{ total_clientes }}
+            </p>
+
+            <p>
+                Clientes cadastrados
+            </p>
+
         </div>
+
     </div>
 
 
+    <!-- USUÁRIOS -->
+
     <div class="dashboard-card">
-        <div class="card-icone">💰</div>
+
+        <div class="card-icone">
+            👤
+        </div>
 
         <div class="card-info">
-            <h2>FATURAMENTO</h2>
-            <p class="card-numero">R$ {{ faturamento }}</p>
-            <p>Valor total das vendas</p>
+
+            <h2>
+                USUÁRIOS
+            </h2>
+
+            <p class="card-numero">
+                {{ total_usuarios }}
+            </p>
+
+            <p>
+                Usuários cadastrados
+            </p>
+
         </div>
+
     </div>
+
+
+    <!-- VENDAS -->
+
+    <div class="dashboard-card">
+
+        <div class="card-icone">
+            🛒
+        </div>
+
+        <div class="card-info">
+
+            <h2>
+                VENDAS
+            </h2>
+
+            <p class="card-numero">
+                {{ total_vendas }}
+            </p>
+
+            <p>
+                Vendas realizadas
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- VENDAS DE HOJE -->
+
+    <div class="dashboard-card">
+
+        <div class="card-icone">
+            📅
+        </div>
+
+        <div class="card-info">
+
+            <h2>
+                HOJE
+            </h2>
+
+            <p class="card-numero">
+                {{ vendas_hoje }}
+            </p>
+
+            <p>
+                Vendas realizadas hoje
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if current_user.tipo == 'dono' %}
+
+        <!-- FATURAMENTO TOTAL -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icone">
+                💰
+            </div>
+
+            <div class="card-info">
+
+                <h2>
+                    FATURAMENTO
+                </h2>
+
+                <p class="card-numero">
+                    R$ {{ "%.2f"|format(faturamento) }}
+                </p>
+
+                <p>
+                    Faturamento total
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FATURAMENTO DE HOJE -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icone">
+                💵
+            </div>
+
+            <div class="card-info">
+
+                <h2>
+                    FATURAMENTO HOJE
+                </h2>
+
+                <p class="card-numero">
+                    R$ {{ "%.2f"|format(faturamento_hoje) }}
+                </p>
+
+                <p>
+                    Faturamento de hoje
+                </p>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- LIVRO MAIS VENDIDO -->
+
+<div class="dashboard-extra">
+
+    <div class="dashboard-card">
+
+        <div class="card-icone">
+            🏆
+        </div>
+
+        <div class="card-info">
+
+            <h2>
+                LIVRO MAIS VENDIDO
+            </h2>
+
+            {% if livro_mais_vendido %}
+
+                <p class="card-numero">
+                    {{ livro_mais_vendido.titulo }}
+                </p>
+
+                <p>
+                    {{ livro_mais_vendido.quantidade_vendida }}
+                    unidade(s) vendida(s)
+                </p>
+
+            {% else %}
+
+                <p class="card-numero">
+                    —
+                </p>
+
+                <p>
+                    Nenhuma venda realizada
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ÚLTIMAS VENDAS -->
+
+<div class="table-container">
+
+    <h2>
+        🧾 Últimas vendas
+    </h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Venda</th>
+                <th>Cliente</th>
+                <th>Funcionário</th>
+                <th>Data</th>
+                <th>Total</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for venda in ultimas_vendas %}
+
+                <tr>
+
+                    <td>
+                        #{{ venda.id }}
+                    </td>
+
+                    <td>
+
+                        {% if venda.comprador %}
+                            {{ venda.comprador.nome }}
+                        {% else %}
+                            Cliente não cadastrado
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ venda.usuario.nome }}
+                    </td>
+
+                    <td>
+                        {{ venda.data_venda.strftime('%d/%m/%Y %H:%M') }}
+                    </td>
+
+                    <td>
+                        R$ {{ "%.2f"|format(venda.total) }}
+                    </td>
+
+                </tr>
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="5">
+                        Nenhuma venda realizada.
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
 
 </div>
 

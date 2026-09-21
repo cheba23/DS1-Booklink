@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}
+Livros
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Livros
+</h1>
+
+
+<!-- BUSCA -->
+
+<form method="GET" action="{{ url_for('livros.listar_livros') }}" class="form-busca">
+
+    <input
+        type="text"
+        name="busca"
+        placeholder="Buscar por título, autor ou gênero..."
+        value="{{ busca }}"
+    >
+
+    <button type="submit" class="botao">
+        Buscar
+    </button>
+
+</form>
+
+
+<!-- BOTÃO CADASTRAR -->
+
+<a
+    href="{{ url_for('livros.registrar') }}"
+    class="botao botao-adicionar"
+>
+    + Registrar Livro
+</a>
+
+
+<!-- TABELA -->
+
+<div class="table-container">
+
+    <table class="tabela">
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Título</th>
+
+                <th>Autor</th>
+
+                <th>Gênero</th>
+
+                <th>Preço</th>
+
+                <th>Estoque</th>
+
+                <th>Data de cadastro</th>
+
+                <th>Ações</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for livro in livros %}
+
+            <tr>
+
+                <td>
+                    {{ livro.id }}
+                </td>
+
+                <td>
+                    {{ livro.titulo }}
+                </td>
+
+                <td>
+                    {{ livro.autor }}
+                </td>
+
+                <td>
+                    {{ livro.genero.nome }}
+                </td>
+
+                <td>
+                    R$ {{ "%.2f"|format(livro.preco) }}
+                </td>
+
+                <td>
+                    {{ livro.estoque }}
+                </td>
+
+                <td>
+                    {{ livro.data_cadastro.strftime('%d/%m/%Y %H:%M') }}
+                </td>
+
+                <td>
+
+                    <a
+                        href="{{ url_for('livros.editar', id=livro.id) }}"
+                        class="botao botao-editar"
+                    >
+                        Editar
+                    </a>
+
+                    <a
+                        href="{{ url_for('livros.deletar', id=livro.id) }}"
+                        class="botao botao-deletar"
+                        onclick="return confirm('Tem certeza que deseja deletar este livro?')"
+                    >
+                        Deletar
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% else %}
+
+            <tr>
+
+                <td colspan="8">
+                    Nenhum livro encontrado.
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

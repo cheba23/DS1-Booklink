@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}
+Histórico de Vendas
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Histórico de Vendas
+</h1>
+
+<div class="historico-buscas">
+
+
+<div class="historico-busca">
+
+    <h2>
+        Buscar cliente
+    </h2>
+
+    <form
+        method="GET"
+        action="{{ url_for('vendas.buscar_clientes_historico') }}"
+    >
+
+        <div class="campo">
+
+            <input
+                type="text"
+                name="busca"
+                placeholder="Nome do cliente"
+            >
+
+        </div>
+
+        <button
+            type="submit"
+            class="botao"
+        >
+            Buscar cliente
+        </button>
+
+    </form>
+
+</div>
+
+
+<div class="historico-busca">
+
+    <h2>
+        Buscar número da venda
+    </h2>
+
+    <form
+        method="GET"
+        action="{{ url_for('vendas.buscar_venda_historico') }}"
+    >
+
+        <div class="campo">
+
+            <input
+                type="text"
+                name="numero"
+                placeholder="Número da venda"
+            >
+
+        </div>
+
+        <button
+            type="submit"
+            class="botao"
+        >
+            Buscar venda
+        </button>
+
+    </form>
+
+</div>
+
+
+<div class="historico-busca">
+
+    <h2>
+        Buscar funcionário
+    </h2>
+
+    <form
+        method="GET"
+        action="{{ url_for('vendas.buscar_funcionarios_historico') }}"
+    >
+
+        <div class="campo">
+
+            <input
+                type="text"
+                name="busca"
+                placeholder="Nome do funcionário"
+            >
+
+        </div>
+
+        <button
+            type="submit"
+            class="botao"
+        >
+            Buscar funcionário
+        </button>
+
+    </form>
+
+</div>
+
+
+</div>
+
+<div class="historico-vendas">
+
+
+<h2>
+    Todas as vendas
+</h2>
+
+{% endblock %}

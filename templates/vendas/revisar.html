@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}
+Revisar venda
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Revisar venda
+</h1>
+
+<div class="venda-revisao">
+
+    <h2>Cliente</h2>
+
+    {% if comprador %}
+
+        <p>
+            <strong>Nome:</strong>
+            {{ comprador.nome }}
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            {{ comprador.email }}
+        </p>
+
+    {% else %}
+
+        <p>
+            <strong>Cliente:</strong>
+            Não cadastrado
+        </p>
+
+    {% endif %}
+
+
+    <h2>Livros</h2>
+
+    <div class="table-container">
+        
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Livro</th>
+                    <th>Quantidade</th>
+                    <th>Preço</th>
+                    <th>Subtotal</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for item in itens %}
+
+                <tr>
+
+                    <td>
+                        {{ item.livro.titulo }}
+                    </td>
+
+                    <td>
+                        {{ item.quantidade }}
+                    </td>
+
+                    <td>
+                        R$ {{ "%.2f"|format(item.livro.preco) }}
+                    </td>
+
+                    <td>
+                        R$ {{ "%.2f"|format(item.subtotal) }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h2>
+        Total:
+        R$ {{ "%.2f"|format(total) }}
+    </h2>
+
+
+    <div class="venda-botoes">
+        
+        {% if comprador %}
+
+            <a
+                class="botao"
+                href="{{ url_for(
+                    'vendas.selecionar_livros',
+                    comprador_id=comprador.id
+                ) }}"
+            >
+                Adicionar outro livro
+            </a>
+
+        {% else %}
+
+            <a
+                class="botao"
+                href="{{ url_for(
+                    'vendas.selecionar_livros_sem_cadastro'
+                ) }}"
+            >
+                Adicionar outro livro
+            </a>
+
+        {% endif %}
+
+
+        <a
+            class="botao"
+            href="{{ url_for('vendas.limpar_venda') }}"
+        >
+            Cancelar venda
+        </a>
+
+
+        <form
+            action="{{ url_for('vendas.finalizar_venda') }}"
+            method="POST"
+        >
+
+            <button
+                type="submit"
+                class="botao botao-adicionar"
+            >
+                Finalizar venda
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

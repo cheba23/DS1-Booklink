@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BookLink - Registrar Empresa</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="header-container">
+
+            <a href="{{ url_for('home') }}" class="logo">
+                BookLink
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <section class="auth-container">
+
+            <div class="auth-card">
+
+                <div class="auth-header">
+
+                    <h1>Registrar Empresa</h1>
+
+                    <p>
+                        Cadastre sua empresa para começar a usar o BookLink.
+                    </p>
+
+                </div>
+
+
+                {% if erro %}
+                    <div class="mensagem-erro">
+                        {{ erro }}
+                    </div>
+                {% endif %}
+
+
+                <form action="{{ url_for('empresa.registrar_empresa') }}" method="POST">
+
+                    <!-- ==========================================
+                         DADOS DA EMPRESA
+                    =========================================== -->
+
+                    <h2>Dados da Empresa</h2>
+
+                    <div class="campo">
+
+                        <label for="nomeEmpresa">
+                            Nome da empresa
+                        </label>
+
+                        <input
+                            type="text"
+                            name="nomeEmpresaForm"
+                            id="nomeEmpresa"
+                            placeholder="Digite o nome da empresa"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="cnpj">
+                            CNPJ
+                        </label>
+
+                        <input
+                            type="text"
+                            name="cnpjForm"
+                            id="cnpj"
+                            placeholder="00.000.000/0000-00"
+                            maxlength="18"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         DADOS DO DONO
+                    =========================================== -->
+
+                    <h2>Dados do Dono</h2>
+
+                    <div class="campo">
+
+                        <label for="nomeDono">
+                            Nome
+                        </label>
+
+                        <input
+                            type="text"
+                            name="nomeDonoForm"
+                            id="nomeDono"
+                            placeholder="Digite seu nome"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="email">
+                            E-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            name="emailForm"
+                            id="email"
+                            placeholder="Digite seu e-mail"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="senha">
+                            Senha
+                        </label>
+
+                        <input
+                            type="password"
+                            name="senhaForm"
+                            id="senha"
+                            placeholder="Digite sua senha"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         BOTÕES
+                    =========================================== -->
+
+                    <div class="menu">
+
+                        <button
+                            type="submit"
+                            class="botao botao-adicionar"
+                        >
+                            Registrar Empresa
+                        </button>
+
+
+                        <a
+                            href="{{ url_for('home') }}"
+                            class="botao botao-buscar"
+                        >
+                            Voltar
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <p>
+            &copy; 2026 BookLink - Sistema de Administração de Livrarias
+        </p>
+
+    </footer>
+
+<script>
+    const cnpj = document.getElementById("cnpj");
+
+    cnpj.addEventListener("input", function () {
+        let valor = cnpj.value.replace(/\D/g, "");
+
+        valor = valor.substring(0, 14);
+
+        valor = valor.replace(/^(\d{2})(\d)/, "$1.$2");
+        valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+        valor = valor.replace(/\.(\d{3})(\d)/, ".$1/$2");
+        valor = valor.replace(/(\d{4})(\d)/, "$1-$2");
+
+        cnpj.value = valor;
+    });
+</script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}
+Buscar Cliente
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Buscar Cliente
+</h1>
+
+
+<form
+    method="GET"
+    action="{{ url_for('vendas.buscar_clientes_historico') }}"
+>
+
+    <div class="campo">
+
+        <input
+            type="text"
+            name="busca"
+            placeholder="Nome do cliente"
+            value="{{ busca }}"
+        >
+
+    </div>
+
+    <button
+        type="submit"
+        class="botao"
+    >
+        Buscar
+    </button>
+
+</form>
+
+
+<br>
+
+
+{% if busca %}
+
+    <h2>
+        Clientes encontrados
+    </h2>
+
+
+    {% if clientes %}
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Telefone</th>
+                        <th>Ações</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for cliente in clientes %}
+
+                    <tr>
+
+                        <td>
+                            {{ cliente.nome }}
+                        </td>
+
+                        <td>
+                            {{ cliente.email }}
+                        </td>
+
+                        <td>
+
+                            {% if cliente.telefone %}
+
+                                {{ cliente.telefone }}
+
+                            {% else %}
+
+                                Não informado
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="{{ url_for(
+                                    'vendas.historico_cliente',
+                                    cliente_id=cliente.id
+                                ) }}"
+                                class="botao"
+                            >
+                                Ver compras
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <p>
+            Nenhum cliente encontrado para:
+            <strong>{{ busca }}</strong>
+        </p>
+
+    {% endif %}
+
+{% endif %}
+
+
+<br>
+
+<a
+    href="{{ url_for('vendas.historico_vendas') }}"
+    class="botao"
+>
+    Voltar para o histórico
+</a>
+
+
+{% endblock %}

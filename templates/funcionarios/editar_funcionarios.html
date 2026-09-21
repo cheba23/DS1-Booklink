@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+Editar Funcionário
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Editar Funcionário
+</h1>
+
+<form method="POST">
+
+
+<div class="campo">
+    <label for="nomeForm">Nome</label>
+
+    <input
+        type="text"
+        id="nomeForm"
+        name="nomeForm"
+        value="{{ funcionario.nome }}"
+        placeholder="Digite o nome do funcionário"
+    >
+</div>
+
+
+<div class="campo">
+    <label for="emailForm">E-mail</label>
+
+    <input
+        type="email"
+        id="emailForm"
+        name="emailForm"
+        value="{{ funcionario.email }}"
+        placeholder="Digite o e-mail do funcionário"
+    >
+</div>
+
+
+<div class="campo">
+    <label for="senhaForm">Nova senha</label>
+
+    <input
+        type="password"
+        id="senhaForm"
+        name="senhaForm"
+        placeholder="Digite a nova senha"
+    >
+</div>
+
+
+{% if erro %}
+
+    <p class="mensagem-erro">
+        {{ erro }}
+    </p>
+
+{% endif %}
+
+
+<button
+    type="submit"
+    class="botao"
+>
+    Salvar alterações
+</button>
+
+</form>
+
+{% endblock %}
