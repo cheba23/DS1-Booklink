@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from sqlalchemy import or_
 
-from models import Livro, Genero
+from models import Livro, Genero, ItemVenda
 from db import db
 
 
@@ -17,7 +17,7 @@ livros_bp = Blueprint('livros', __name__)
 @login_required
 def registrar():
 
-    if current_user.tipo not in ['dono', 'admin_empresa', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
 
     generos = Genero.query.filter_by(
@@ -114,7 +114,7 @@ def registrar():
 @login_required
 def listar_livros():
 
-    if current_user.tipo not in ['dono', 'admin_empresa', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
 
     busca = request.args.get('busca', '').strip()
@@ -152,7 +152,7 @@ def listar_livros():
 @login_required
 def editar(id):
 
-    if current_user.tipo not in ['dono', 'admin_empresa', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
 
     livro = Livro.query.filter_by(
@@ -261,7 +261,7 @@ def editar(id):
 @login_required
 def deletar(id):
 
-    if current_user.tipo not in ['dono', 'admin_empresa', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
 
     livro = Livro.query.filter_by(
@@ -273,8 +273,15 @@ def deletar(id):
         return "Livro não encontrado", 404
 
     # TODO: verificar se o livro possui itens de venda antes de excluir
-
+    
+    item_vendido = ItemVenda.query.filter_by(livro_id=livro.id).first()
+    
+    if item_vendido:
+        flash("Não é possível excluir este livro porque ele possui vendas registradas.", "erro")
+        return redirect(url_for("livros.listar_livros"))
+    
     db.session.delete(livro)
     db.session.commit()
-
-    return redirect(url_for('livros.listar_livros'))
+    
+    flash("Livro excluído com sucesso!", "sucesso")
+    return redirect(url_for("livros.listar_livros"))

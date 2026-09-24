@@ -119,7 +119,7 @@ def registrar_empresa():
         nome=nome_dono,
         email=email,
         senha=nova_senha,
-        tipo='dono',
+        tipo='admin',
         empresa_id=nova_empresa.id
     )
 

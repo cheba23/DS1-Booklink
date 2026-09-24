@@ -16,7 +16,7 @@ generos_bp = Blueprint('generos', __name__)
 @login_required
 def listar_generos():
 
-    if current_user.tipo not in ['dono', 'admin_empresa', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
 
     generos = Genero.query.filter_by(
@@ -37,7 +37,7 @@ def listar_generos():
 @login_required
 def editar_genero(id):
 
-    if current_user.tipo not in ['dono', 'admin_empresa', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
 
     # Procura o gênero somente dentro da empresa atual
@@ -79,7 +79,7 @@ def editar_genero(id):
 @login_required
 def deletar_genero(id):
 
-    if current_user.tipo not in ['dono', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
 
     # Busca somente um gênero da própria empresa
@@ -123,7 +123,7 @@ def deletar_genero(id):
 @login_required
 def registrar_genero():
 
-    if current_user.tipo not in ['dono', 'admin_empresa', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
 
     if request.method == 'GET':

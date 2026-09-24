@@ -52,7 +52,7 @@ def listar_compradores():
 @login_required
 def registrar_compradores():
     
-    if current_user.tipo not in ['dono', 'admin_empresa', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
     
     if request.method == 'GET':
@@ -99,7 +99,7 @@ def deletar_compradores(id):
     
     # TODO: verificar se comprador possui vendas antes de excluir
     
-    if current_user.tipo not in ['dono', 'admin_empresa', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
     
     comprador = Comprador.query.filter_by(
@@ -119,7 +119,7 @@ def deletar_compradores(id):
 @login_required
 def editar_comprador(id):
 
-    if current_user.tipo not in ['dono', 'admin_empresa', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
 
     comprador = Comprador.query.filter_by(

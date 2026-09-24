@@ -87,7 +87,7 @@ def homeAdm():
     faturamento = 0
     faturamento_hoje = 0
 
-    if current_user.tipo == 'dono':
+    if current_user.tipo == 'admin':
 
         faturamento = db.session.query(
             db.func.sum(Venda.total)

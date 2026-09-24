@@ -953,3 +953,59 @@ tbody td .botao + .botao {
         width: 100%;
     }
 }
+
+
+.mensagem-erro-historico {
+    background-color: #ffe5e5;
+    color: #a94442;
+    border: 1px solid #e0a0a0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 15px 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.historico-vendas {
+    margin-top: 30px;
+}
+
+.historico-vendas h2 {
+    margin-bottom: 20px;
+}
+
+.venda {
+    background-color: #fffaf2;
+    border: 1px solid #d8c3a5;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.venda p {
+    margin: 6px 0;
+    color: #4a3728;
+    font-size: 15px;
+}
+
+.venda p:first-child {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.mensagem {
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.mensagem.erro {
+    background-color: #ffdddd;
+    color: #a00;
+}
+
+.mensagem.sucesso {
+    background-color: #ddffdd;
+    color: #080;
+}

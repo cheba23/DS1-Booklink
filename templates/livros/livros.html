@@ -10,9 +10,19 @@ Livros
     Livros
 </h1>
 
+<!-- MENSAGENS FLASH -->
+{% with mensagens = get_flashed_messages(with_categories=true) %}
+    {% if mensagens %}
+        {% for categoria, mensagem in mensagens %}
+            <div class="mensagem {{ categoria }}">
+                {{ mensagem }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 
 <!-- BUSCA -->
-
 <form method="GET" action="{{ url_for('livros.listar_livros') }}" class="form-busca">
 
     <input
@@ -30,7 +40,6 @@ Livros
 
 
 <!-- BOTÃO CADASTRAR -->
-
 <a
     href="{{ url_for('livros.registrar') }}"
     class="botao botao-adicionar"
@@ -40,35 +49,22 @@ Livros
 
 
 <!-- TABELA -->
-
 <div class="table-container">
 
     <table class="tabela">
 
         <thead>
-
             <tr>
-
                 <th>ID</th>
-
                 <th>Título</th>
-
                 <th>Autor</th>
-
                 <th>Gênero</th>
-
                 <th>Preço</th>
-
                 <th>Estoque</th>
-
                 <th>Data de cadastro</th>
-
                 <th>Ações</th>
-
             </tr>
-
         </thead>
-
 
         <tbody>
 
@@ -128,11 +124,9 @@ Livros
             {% else %}
 
             <tr>
-
                 <td colspan="8">
                     Nenhum livro encontrado.
                 </td>
-
             </tr>
 
             {% endfor %}

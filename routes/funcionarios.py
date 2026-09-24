@@ -13,7 +13,7 @@ funcionarios_bp = Blueprint('funcionarios', __name__)
 @login_required
 def listar_funcionarios():
 
-    if current_user.tipo not in ['dono', 'admin_empresa']:
+    if current_user.tipo not in ['admin']:
         return redirect(url_for('home'))
 
     busca = request.args.get('busca', '').strip()
@@ -45,7 +45,7 @@ def listar_funcionarios():
 def registrar_funcionario():
 
     # Dono e administrador da empresa podem cadastrar funcionários
-    if current_user.tipo not in ['dono', 'admin_empresa']:
+    if current_user.tipo not in ['admin']:
         return redirect(url_for('home'))
 
     if request.method == 'GET':
@@ -105,10 +105,10 @@ def registrar_funcionario():
 @login_required
 def editar_funcionarios(id):
 
-    if current_user.tipo not in ['dono', 'admin_empresa', 'funcionario']:
+    if current_user.tipo not in ['admin', 'funcionario']:
         return redirect(url_for('home'))
 
-    if current_user.tipo != 'dono' and id != current_user.id:
+    if current_user.tipo != 'admin' and id != current_user.id:
         return redirect(url_for('funcionarios.listar_funcionarios'))
 
     funcionario = Usuario.query.filter_by(

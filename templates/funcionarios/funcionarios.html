@@ -117,7 +117,7 @@ Funcionários
 
             <td>
 
-                {% if current_user.tipo == 'dono'
+                {% if current_user.tipo == 'admin'
                     or funcionario.id == current_user.id %}
 
                     <a
@@ -133,7 +133,7 @@ Funcionários
                 {% endif %}
 
 
-                {% if current_user.tipo == 'dono' %}
+                {% if current_user.tipo == 'admin' %}
 
                     {% if funcionario.tipo == 'funcionario' %}
 
@@ -147,7 +147,7 @@ Funcionários
                             Tornar Administrador
                         </a>
 
-                    {% elif funcionario.tipo == 'admin_empresa' %}
+                    {% elif funcionario.tipo == 'admin' %}
 
                         <a
                             class="botao botao-editar"
@@ -164,7 +164,7 @@ Funcionários
 
                     {% if funcionario.tipo in [
                         'funcionario',
-                        'admin_empresa'
+                        'admin'
                     ] %}
 
                         <a

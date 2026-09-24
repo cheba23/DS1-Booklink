@@ -50,7 +50,7 @@
                 Clientes
             </a>
 
-            {% if current_user.tipo in ['dono', 'admin_empresa'] %}
+            {% if current_user.tipo in ['admin'] %}
                 <a href="{{ url_for('funcionarios.listar_funcionarios') }}">
                     Funcionários
                 </a>

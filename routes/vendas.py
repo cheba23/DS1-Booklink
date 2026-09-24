@@ -19,8 +19,7 @@ vendas_bp = Blueprint('vendas', __name__)
 def usuario_pode_vender():
 
     return current_user.tipo in [
-        'dono',
-        'admin_empresa',
+        'admin',
         'funcionario'
     ]
 
@@ -873,15 +872,18 @@ def historico_vendas():
     if not usuario_pode_vender():
         return redirect(url_for('home'))
 
+    erro = request.args.get('erro')
+
     vendas = Venda.query.filter_by(
         empresa_id=current_user.empresa_id
     ).order_by(
-        Venda.data_venda.desc()
+        Venda.id.desc()
     ).all()
 
     return render_template(
         'vendas/historico.html',
-        vendas=vendas
+        vendas=vendas,
+        erro=erro
     )
     
 # ============================================================
@@ -963,15 +965,13 @@ def buscar_venda_historico():
     if not usuario_pode_vender():
         return redirect(url_for('home'))
 
-    busca = request.args.get(
-        'numero',
-        ''
-    ).strip()
+    busca = request.args.get('numero', '').strip()
 
     if not busca.isdigit():
         return redirect(
             url_for(
-                'vendas.historico_vendas'
+                'vendas.historico_vendas',
+                erro='Digite um número de venda válido.'
             )
         )
 
@@ -980,7 +980,15 @@ def buscar_venda_historico():
     venda = Venda.query.filter_by(
         id=venda_id,
         empresa_id=current_user.empresa_id
-    ).first_or_404()
+    ).first()
+
+    if not venda:
+        return redirect(
+            url_for(
+                'vendas.historico_vendas',
+                erro='Venda não encontrada.'
+            )
+        )
 
     return redirect(
         url_for(
@@ -1013,8 +1021,7 @@ def buscar_funcionarios_historico():
             Usuario.empresa_id == current_user.empresa_id,
             Usuario.nome.ilike(f'%{busca}%'),
             Usuario.tipo.in_([
-                'dono',
-                'admin_empresa',
+                'admin',
                 'funcionario'
             ])
         ).order_by(

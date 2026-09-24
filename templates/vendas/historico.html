@@ -45,8 +45,8 @@ Histórico de Vendas
 
 </div>
 
-
 <div class="historico-busca">
+
 
     <h2>
         Buscar número da venda
@@ -114,11 +114,54 @@ Histórico de Vendas
 
 </div>
 
+{% if erro %}
+    <div class="mensagem-erro-historico">
+        {{ erro }}
+    </div>
+{% endif %}
+
 <div class="historico-vendas">
 
+    <h2>
+        Todas as vendas
+    </h2>
 
-<h2>
-    Todas as vendas
-</h2>
+    {% for venda in vendas %}
 
+        <div class="venda">
+
+            <p>
+                Venda #{{ venda.id }}
+            </p>
+
+            <p>
+                Total: R$ {{ "%.2f"|format(venda.total) }}
+            </p>
+
+            <p>
+                Funcionário: {{ venda.usuario.nome }}
+            </p>
+
+            {% if venda.comprador %}
+                <p>
+                    Cliente: {{ venda.comprador.nome }}
+                </p>
+            {% else %}
+                <p>
+                    Cliente: Não cadastrado
+                </p>
+            {% endif %}
+
+        </div>
+
+    {% else %}
+
+        <p>
+            Nenhuma venda encontrada.
+        </p>
+
+    {% endfor %}
+
+</div>
 {% endblock %}
+
