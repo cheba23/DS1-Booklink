@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}
+Buscar Funcionário
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Buscar Funcionário
+</h1>
+
+
+<form
+    method="GET"
+    action="{{ url_for('vendas.buscar_funcionarios_historico') }}"
+>
+
+    <div class="campo">
+
+        <input
+            type="text"
+            name="busca"
+            placeholder="Nome do funcionário"
+            value="{{ busca }}"
+        >
+
+    </div>
+
+    <button
+        type="submit"
+        class="botao"
+    >
+        Buscar
+    </button>
+
+</form>
+
+
+<br>
+
+
+{% if busca %}
+
+    <h2>
+        Funcionários encontrados
+    </h2>
+
+
+    {% if funcionarios %}
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Tipo</th>
+                        <th>Ações</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for funcionario in funcionarios %}
+
+                    <tr>
+
+                        <td>
+                            {{ funcionario.nome }}
+                        </td>
+
+                        <td>
+                            {{ funcionario.email }}
+                        </td>
+
+                        <td>
+                            {{ funcionario.tipo }}
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="{{ url_for(
+                                    'vendas.historico_funcionario',
+                                    usuario_id=funcionario.id
+                                ) }}"
+                                class="botao"
+                            >
+                                Ver vendas
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <p>
+            Nenhum funcionário encontrado para:
+            <strong>{{ busca }}</strong>
+        </p>
+
+    {% endif %}
+
+{% endif %}
+
+
+<br>
+
+<a
+    href="{{ url_for('vendas.historico_vendas') }}"
+    class="botao"
+>
+    Voltar para o histórico
+</a>
+
+
+{% endblock %}

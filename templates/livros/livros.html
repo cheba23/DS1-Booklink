@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}
+Livros
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Livros
+</h1>
+
+<!-- MENSAGENS FLASH -->
+{% with mensagens = get_flashed_messages(with_categories=true) %}
+    {% if mensagens %}
+        {% for categoria, mensagem in mensagens %}
+            <div class="mensagem {{ categoria }}">
+                {{ mensagem }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
+<!-- BUSCA -->
+<form method="GET" action="{{ url_for('livros.listar_livros') }}" class="form-busca">
+
+    <input
+        type="text"
+        name="busca"
+        placeholder="Buscar por título, autor ou gênero..."
+        value="{{ busca }}"
+    >
+
+    <button type="submit" class="botao">
+        Buscar
+    </button>
+
+</form>
+
+
+<!-- BOTÃO CADASTRAR -->
+<a
+    href="{{ url_for('livros.registrar') }}"
+    class="botao botao-adicionar"
+>
+    + Registrar Livro
+</a>
+
+
+<!-- TABELA -->
+<div class="table-container">
+
+    <table class="tabela">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Imagem</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Gênero</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Status</th>
+                <th>Data de cadastro</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for livro in livros %}
+
+            <tr>
+
+                <!-- ID -->
+                <td>
+                    {{ livro.id }}
+                </td>
+
+                <!-- IMAGEM -->
+                <td>
+                    <img
+                        src="{{ url_for('static', filename='uploads/' ~ livro.imagem) }}"
+                        alt="Capa de {{ livro.titulo }}"
+                        class="imagem-livro"
+                    >
+                </td>
+
+                <!-- TÍTULO -->
+                <td>
+                    {{ livro.titulo }}
+                </td>
+
+                <!-- AUTOR -->
+                <td>
+                    {{ livro.autor }}
+                </td>
+
+                <!-- GÊNERO -->
+                <td>
+                    {{ livro.genero.nome }}
+                </td>
+
+                <!-- PREÇO -->
+                <td>
+                    R$ {{ "%.2f"|format(livro.preco) }}
+                </td>
+
+                <!-- ESTOQUE -->
+                <td>
+                    {{ livro.estoque }}
+                </td>
+
+                <!-- STATUS -->
+                <td>
+                    {% if livro.ativo %}
+                        <span class="status-ativo">Ativo</span>
+                    {% else %}
+                        <span class="status-inativo">Inativo</span>
+                    {% endif %}
+                </td>
+
+                <!-- DATA DE CADASTRO -->
+                <td>
+                    {{ livro.data_cadastro.strftime('%d/%m/%Y %H:%M') }}
+                </td>
+
+                <!-- AÇÕES -->
+                <td>
+
+                    <!-- EDITAR -->
+                    <a
+                        href="{{ url_for('livros.editar', id=livro.id) }}"
+                        class="botao botao-editar"
+                    >
+                        Editar
+                    </a>
+
+                    {% if livro.ativo %}
+
+                        <!-- INATIVAR -->
+                        <form
+                            method="POST"
+                            action="{{ url_for('livros.toggle_livro', id=livro.id) }}"
+                            style="display: inline;"
+                            onsubmit="return confirm('Deseja realmente inativar este livro?')"
+                        >
+                            <button
+                                type="submit"
+                                class="botao"
+                            >
+                                Inativar
+                            </button>
+                        </form>
+
+                    {% else %}
+
+                        <!-- REATIVAR -->
+                        <form
+                            method="POST"
+                            action="{{ url_for('livros.toggle_livro', id=livro.id) }}"
+                            style="display: inline;"
+                            onsubmit="return confirm('Deseja reativar este livro?')"
+                        >
+                            <button
+                                type="submit"
+                                class="botao"
+                            >
+                                Reativar
+                            </button>
+                        </form>
+
+                        <!-- EXCLUIR DEFINITIVAMENTE -->
+                        <form
+                            method="POST"
+                            action="{{ url_for('livros.deletar', id=livro.id) }}"
+                            style="display: inline;"
+                            onsubmit="return confirm('Tem certeza que deseja excluir definitivamente este livro? Esta ação não poderá ser desfeita.')"
+                        >
+                            <button
+                                type="submit"
+                                class="botao botao-deletar"
+                            >
+                                Excluir
+                            </button>
+                        </form>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% else %}
+
+            <!-- NENHUM LIVRO ENCONTRADO -->
+            <tr>
+                <td colspan="10">
+                    Nenhum livro encontrado.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

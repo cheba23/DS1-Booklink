@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}
+Registrar comprador
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Registrar comprador
+</h1>
+
+<form method="POST">
+
+    <div class="campo">
+
+        <label for="nomeForm">
+            Nome
+        </label>
+
+        <input
+            type="text"
+            id="nomeForm"
+            name="nomeForm"
+            placeholder="Digite o nome do comprador"
+        >
+
+    </div>
+
+
+    <div class="campo">
+
+        <label for="emailForm">
+            E-mail
+        </label>
+
+        <input
+            type="email"
+            id="emailForm"
+            name="emailForm"
+            placeholder="Digite o e-mail do comprador"
+        >
+
+    </div>
+
+
+    <div class="campo">
+
+        <label for="telefoneForm">
+            Telefone
+        </label>
+
+        <input
+            type="text"
+            id="telefone"
+            name="telefone"
+            placeholder="(11) 98765-4321"
+            maxlength="15"
+        >
+
+    </div>
+
+
+    {% if erro %}
+
+        <p class="mensagem-erro">
+            {{ erro }}
+        </p>
+
+    {% endif %}
+
+
+    <button
+        type="submit"
+        class="botao"
+    >
+        Registrar comprador
+    </button>
+
+</form>
+
+<script>
+    const telefone = document.getElementById("telefone");
+
+    telefone.addEventListener("input", function () {
+        let valor = telefone.value.replace(/\D/g, "");
+
+        valor = valor.substring(0, 11);
+
+        valor = valor.replace(/^(\d{2})(\d)/, "($1) $2");
+        valor = valor.replace(/(\d{5})(\d)/, "$1-$2");
+
+        telefone.value = valor;
+    });
+</script>
+
+{% endblock %}

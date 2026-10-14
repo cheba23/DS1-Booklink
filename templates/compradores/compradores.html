@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}
+Clientes
+{% endblock %}
+
+{% block content %}
+
+<h1 class="titulo-pagina">
+    Clientes
+</h1>
+
+
+<!-- BUSCA -->
+
+<form
+    method="GET"
+    action="{{ url_for('compradores.listar_compradores') }}"
+>
+
+    <div class="campo">
+
+        <input
+            type="text"
+            name="busca"
+            placeholder="Buscar por nome, e-mail ou telefone"
+            value="{{ busca }}"
+        >
+
+    </div>
+
+    <button
+        type="submit"
+        class="botao"
+    >
+        Buscar
+    </button>
+
+</form>
+
+
+<br>
+
+
+<a
+    class="botao botao-adicionar"
+    href="{{ url_for('compradores.registrar_compradores') }}"
+>
+    + Registrar Clientes
+</a>
+
+
+<br>
+<br>
+
+
+{% if busca %}
+
+    <p>
+        Resultados para:
+        <strong>{{ busca }}</strong>
+    </p>
+
+{% endif %}
+
+
+<div class="table-container">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Ações</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for comprador in compradores %}
+
+            <tr>
+
+                <td>
+                    {{ comprador.nome }}
+                </td>
+
+
+                <td>
+                    {{ comprador.email }}
+                </td>
+
+
+                <td>
+                    {{ comprador.telefone }}
+                </td>
+
+
+                <td>
+
+                    <a
+                        class="botao botao-editar"
+                        href="{{ url_for(
+                            'compradores.editar_comprador',
+                            id=comprador.id
+                        ) }}"
+                    >
+                        Editar
+                    </a>
+
+
+                    <a
+                        class="botao botao-excluir"
+                        href="{{ url_for(
+                            'compradores.deletar_compradores',
+                            id=comprador.id
+                        ) }}"
+                        onclick="return confirm(
+                            'Tem certeza que deseja excluir este comprador?'
+                        )"
+                    >
+                        Excluir
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% else %}
+
+            <tr>
+
+                <td colspan="4">
+
+                    {% if busca %}
+
+                        Nenhum comprador encontrado.
+
+                    {% else %}
+
+                        Nenhum comprador cadastrado.
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}
+
