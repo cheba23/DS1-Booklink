@@ -173,19 +173,16 @@ Livros
                         </form>
 
                         <!-- EXCLUIR DEFINITIVAMENTE -->
-                        <form
-                            method="POST"
-                            action="{{ url_for('livros.deletar', id=livro.id) }}"
-                            style="display: inline;"
-                            onsubmit="return confirm('Tem certeza que deseja excluir definitivamente este livro? Esta ação não poderá ser desfeita.')"
+                        <button
+                            type="button"
+                            class="botao botao-deletar"
+                            onclick="abrirModalExclusao(
+                                '{{ url_for('livros.deletar', id=livro.id) }}',
+                                '{{ livro.titulo | e }}'
+                            )"
                         >
-                            <button
-                                type="submit"
-                                class="botao botao-deletar"
-                            >
-                                Excluir
-                            </button>
-                        </form>
+                            Excluir
+                        </button>
 
                     {% endif %}
 
@@ -207,7 +204,61 @@ Livros
         </tbody>
 
     </table>
+<!-- MODAL DE EXCLUSÃO -->
+<div id="modal-exclusao" class="modal">
+    <div class="modal-conteudo">
 
+        <h2>Confirmar exclusão</h2>
+
+        <p>
+            Tem certeza que deseja excluir definitivamente
+            o livro <strong id="nome-material-exclusao"></strong>?
+        </p>
+
+        <p>Esta ação não poderá ser desfeita.</p>
+
+        <form
+            id="form-exclusao"
+            method="POST"
+        >
+            <button type="button"
+                    class="botao"
+                    onclick="fecharModalExclusao()">
+                Cancelar
+            </button>
+
+            <button type="submit"
+                    class="botao botao-deletar">
+                Sim, excluir
+            </button>
+        </form>
+
+    </div>
+</div>
 </div>
 
+<script>
+    function abrirModalExclusao(url, tituloLivro) {
+        const modal = document.getElementById("modal-exclusao");
+        const form = document.getElementById("form-exclusao");
+        const titulo = document.getElementById("nome-material-exclusao");
+
+        form.action = url;
+        titulo.textContent = tituloLivro;
+
+        modal.classList.add("is-active");
+    }
+
+    function fecharModalExclusao() {
+        document
+            .getElementById("modal-exclusao")
+            .classList.remove("is-active");
+    }
+
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+            fecharModalExclusao();
+        }
+    });
+</script>
 {% endblock %}

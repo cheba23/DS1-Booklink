@@ -14,6 +14,10 @@ ENV/
 #Arquivos de variaveis de ambientes
 .env
 
+# Banco de Dados local SQLite e pastas do flask
+*.db
+instance/
+
 # Ignora as imagens enviadas durante os testes
 static/uploads/*
 
