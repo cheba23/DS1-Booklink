@@ -81,6 +81,9 @@ class Usuario(UserMixin, db.Model):
 
 class Genero(db.Model):
     __tablename__ = 'generos'
+    __table_args__ = (
+        db.UniqueConstraint('empresa_id', 'nome', name='uq_genero_empresa_nome'),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50), nullable=False)
@@ -100,6 +103,9 @@ class Genero(db.Model):
 
 class Livro(db.Model):
     __tablename__ = 'livros'
+    __table_args__ = (
+        db.UniqueConstraint('empresa_id', 'titulo', 'autor', name='uq_livro_empresa_titulo_autor'),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(100), nullable=False)
@@ -146,6 +152,10 @@ class Livro(db.Model):
     
 class Comprador(db.Model):
     __tablename__ = 'compradores'
+    __table_args__ = (
+        db.UniqueConstraint('empresa_id', 'email', name='uq_comprador_empresa_email'),
+        db.UniqueConstraint('empresa_id', 'telefone', name='uq_comprador_empresa_telefone'),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
 
@@ -227,6 +237,9 @@ class Venda(db.Model):
     
 class ItemVenda(db.Model):
     __tablename__ = 'itens_venda'
+    __table_args__ = (
+        db.UniqueConstraint('venda_id', 'livro_id', name='uq_itemvenda_venda_livro'),
+    )
 
     id = db.Column(
         db.Integer,

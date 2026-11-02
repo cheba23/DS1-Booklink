@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 
 from models import Usuario
 from db import db
@@ -51,9 +51,9 @@ def registrar_funcionario():
     if request.method == 'GET':
         return render_template('funcionarios/registrar_funcionarios.html')
 
-    nome = request.form['nomeForm'].strip()
-    email = request.form['emailForm'].strip()
-    senha = request.form['senhaForm'].strip()
+    nome = request.form.get('nomeForm', '').strip()
+    email = request.form.get('emailForm', '').strip()
+    senha = request.form.get('senhaForm', '').strip()
 
     if not nome:
         return render_template(
@@ -61,10 +61,22 @@ def registrar_funcionario():
             erro='O nome é obrigatório'
         )
 
+    if len(nome) > 100:
+        return render_template(
+            'funcionarios/registrar_funcionarios.html',
+            erro='O nome deve ter no máximo 100 caracteres'
+        )
+
     if not email:
         return render_template(
             'funcionarios/registrar_funcionarios.html',
             erro='O e-mail é obrigatório'
+        )
+
+    if '@' not in email or '.' not in email or len(email) > 100:
+        return render_template(
+            'funcionarios/registrar_funcionarios.html',
+            erro='Informe um e-mail válido'
         )
 
     if not senha:
@@ -79,7 +91,9 @@ def registrar_funcionario():
             erro='A senha deve ter pelo menos 6 caracteres'
         )
 
-    usuario_existente = Usuario.query.filter_by(email=email).first()
+    usuario_existente = Usuario.query.filter(
+        func.lower(Usuario.email) == email.lower()
+    ).first()
 
     if usuario_existente:
         return render_template(
@@ -97,6 +111,7 @@ def registrar_funcionario():
 
     db.session.add(novo_funcionario)
     db.session.commit()
+    flash('Funcionário cadastrado com sucesso!', 'sucesso')
 
     return redirect(url_for('funcionarios.listar_funcionarios'))
 
@@ -125,15 +140,22 @@ def editar_funcionarios(id):
             funcionario=funcionario
         )
 
-    nome = request.form['nomeForm'].strip()
-    email = request.form['emailForm'].strip()
-    senha = request.form['senhaForm'].strip()
+    nome = request.form.get('nomeForm', '').strip()
+    email = request.form.get('emailForm', '').strip()
+    senha = request.form.get('senhaForm', '').strip()
 
     if not nome:
         return render_template(
             'funcionarios/editar_funcionarios.html',
             funcionario=funcionario,
             erro='O nome é obrigatório'
+        )
+
+    if len(nome) > 100:
+        return render_template(
+            'funcionarios/editar_funcionarios.html',
+            funcionario=funcionario,
+            erro='O nome deve ter no máximo 100 caracteres'
         )
 
     if not email:
@@ -143,26 +165,41 @@ def editar_funcionarios(id):
             erro='O e-mail é obrigatório'
         )
 
-    if not senha:
+    if '@' not in email or '.' not in email or len(email) > 100:
         return render_template(
             'funcionarios/editar_funcionarios.html',
             funcionario=funcionario,
-            erro='A senha é obrigatória'
+            erro='Informe um e-mail válido'
         )
 
-    if len(senha) < 6:
+    # Verifica se o email já pertence a outro usuário
+    usuario_existente = Usuario.query.filter(
+        func.lower(Usuario.email) == email.lower(),
+        Usuario.id != id
+    ).first()
+
+    if usuario_existente:
         return render_template(
             'funcionarios/editar_funcionarios.html',
             funcionario=funcionario,
-            erro='A senha deve ter pelo menos 6 caracteres'
+            erro='Esse e-mail já está cadastrado para outro usuário'
         )
+
+    # Se informou senha, valida o tamanho
+    if senha:
+        if len(senha) < 6:
+            return render_template(
+                'funcionarios/editar_funcionarios.html',
+                funcionario=funcionario,
+                erro='A senha deve ter pelo menos 6 caracteres'
+            )
+        funcionario.senha = generate_password_hash(senha)
 
     funcionario.nome = nome
     funcionario.email = email
 
-    funcionario.senha = generate_password_hash(senha)
-
     db.session.commit()
+    flash('Dados atualizados com sucesso!', 'sucesso')
 
     return redirect(url_for('funcionarios.listar_funcionarios'))
 
@@ -186,17 +223,22 @@ def tornar_admin(id):
     funcionario.tipo = 'admin'
 
     db.session.commit()
+    flash('Funcionário promovido a Administrador!', 'sucesso')
 
     return redirect(url_for('funcionarios.listar_funcionarios'))
 
 
-@funcionarios_bp.route('/funcionarios/deletar/<int:id>')
+@funcionarios_bp.route('/funcionarios/deletar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def deletar_funcionario(id):
 
-    # Somente dono podem excluir
+    # Somente dono pode excluir
     if current_user.tipo != 'admin':
         return redirect(url_for('home'))
+
+    if id == current_user.id:
+        flash('Você não pode excluir sua própria conta.', 'erro')
+        return redirect(url_for('funcionarios.listar_funcionarios'))
 
     usuario = Usuario.query.filter(
         Usuario.id == id,
@@ -205,10 +247,16 @@ def deletar_funcionario(id):
     ).first()
 
     if not usuario:
-        return "Funcionário não encontrado", 404
+        flash('Funcionário não encontrado.', 'erro')
+        return redirect(url_for('funcionarios.listar_funcionarios'))
+
+    if usuario.vendas:
+        flash('Não é possível excluir um funcionário que possui vendas registradas.', 'erro')
+        return redirect(url_for('funcionarios.listar_funcionarios'))
 
     db.session.delete(usuario)
     db.session.commit()
+    flash('Funcionário excluído definitivamente!', 'sucesso')
 
     return redirect(url_for('funcionarios.listar_funcionarios'))
 
@@ -232,5 +280,6 @@ def tornar_funcionario(id):
     usuario.tipo = 'funcionario'
 
     db.session.commit()
+    flash('Cargo alterado para Funcionário!', 'sucesso')
 
     return redirect(url_for('funcionarios.listar_funcionarios'))

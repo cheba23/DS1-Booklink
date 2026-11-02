@@ -460,14 +460,34 @@ def finalizar_venda():
                 url_for('vendas.nova_venda')
             )
 
-    # PRIMEIRO: VALIDAR TODOS OS LIVROS
+    # PRIMEIRO: CONSOLIDAR E VALIDAR TODOS OS LIVROS
+    itens_consolidados = {}
+    for item in venda_session.get('itens', []):
+        try:
+            lid = int(item.get('livro_id'))
+            qtd = int(item.get('quantidade', 0))
+        except (ValueError, TypeError):
+            continue
+
+        if qtd > 0:
+            itens_consolidados[lid] = itens_consolidados.get(lid, 0) + qtd
+
+    if not itens_consolidados:
+        flash(
+            'Não existem itens válidos para finalizar a venda.',
+            'erro'
+        )
+        return redirect(
+            url_for('vendas.nova_venda')
+        )
+
     itens_validos = []
     total = 0
 
-    for item in venda_session['itens']:
+    for livro_id, quantidade in itens_consolidados.items():
 
         livro = Livro.query.filter_by(
-            id=item['livro_id'],
+            id=livro_id,
             empresa_id=current_user.empresa_id
         ).first()
 
@@ -486,18 +506,6 @@ def finalizar_venda():
             flash(
                 f'O livro "{livro.titulo}" está inativo. '
                 'A venda não pode ser finalizada.',
-                'erro'
-            )
-            return redirect(
-                url_for('vendas.nova_venda')
-            )
-
-        quantidade = item['quantidade']
-
-        # Verifica se a quantidade é válida.
-        if quantidade <= 0:
-            flash(
-                'Existe uma quantidade inválida na venda.',
                 'erro'
             )
             return redirect(

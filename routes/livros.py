@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_login import login_required, current_user
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 from werkzeug.utils import secure_filename
 import os
 import uuid
@@ -53,6 +53,13 @@ def registrar():
             erro='O título é obrigatório'
         )
 
+    if len(titulo) > 100:
+        return render_template(
+            'livros/registrar.html',
+            generos=generos,
+            erro='O título deve ter no máximo 100 caracteres'
+        )
+
     if not autor:
         return render_template(
             'livros/registrar.html',
@@ -60,21 +67,28 @@ def registrar():
             erro='O autor é obrigatório'
         )
 
+    if len(autor) > 100:
+        return render_template(
+            'livros/registrar.html',
+            generos=generos,
+            erro='O autor deve ter no máximo 100 caracteres'
+        )
+
     try:
-        preco = float(request.form['precoForm'].strip())
+        preco = float(request.form['precoForm'].strip().replace(',', '.'))
 
     except ValueError:
         return render_template(
             'livros/registrar.html',
             generos=generos,
-            erro='O preço é obrigatório e deve ser um número'
+            erro='O preço é obrigatório e deve ser um número válido'
         )
 
-    if preco < 0:
+    if preco <= 0:
         return render_template(
             'livros/registrar.html',
             generos=generos,
-            erro='O preço não pode ser negativo'
+            erro='O preço deve ser maior que zero'
         )
 
     try:
@@ -84,7 +98,7 @@ def registrar():
         return render_template(
             'livros/registrar.html',
             generos=generos,
-            erro='O estoque é obrigatório e deve ser um número'
+            erro='O estoque é obrigatório e deve ser um número inteiro'
         )
 
     if estoque < 0:
@@ -97,11 +111,43 @@ def registrar():
     try:
         genero_id = int(request.form['genero_id'].strip())
 
-    except ValueError:
+    except (ValueError, KeyError):
         return render_template(
             'livros/registrar.html',
             generos=generos,
             erro='O gênero é obrigatório'
+        )
+
+    genero = Genero.query.filter_by(
+        id=genero_id,
+        empresa_id=current_user.empresa_id
+    ).first()
+
+    if not genero:
+        return render_template(
+            'livros/registrar.html',
+            generos=generos,
+            erro='Gênero selecionado é inválido'
+        )
+
+    # Verifica se já existe livro cadastrado com mesmo título e autor na empresa
+    livro_existente = Livro.query.filter(
+        Livro.empresa_id == current_user.empresa_id,
+        func.lower(Livro.titulo) == titulo.lower(),
+        func.lower(Livro.autor) == autor.lower()
+    ).first()
+
+    if livro_existente:
+        if not livro_existente.ativo:
+            return render_template(
+                'livros/registrar.html',
+                generos=generos,
+                erro='Já existe um livro inativo com este título e autor. Você pode reativá-lo na lista de livros.'
+            )
+        return render_template(
+            'livros/registrar.html',
+            generos=generos,
+            erro='Já existe um livro cadastrado com este título e autor.'
         )
 
     # Recebe a imagem enviada pelo formulário
@@ -250,6 +296,14 @@ def editar(id):
             erro='O título é obrigatório'
         )
 
+    if len(titulo) > 100:
+        return render_template(
+            'livros/editar.html',
+            livro=livro,
+            generos=generos,
+            erro='O título deve ter no máximo 100 caracteres'
+        )
+
     if not autor:
         return render_template(
             'livros/editar.html',
@@ -258,23 +312,31 @@ def editar(id):
             erro='O autor é obrigatório'
         )
 
+    if len(autor) > 100:
+        return render_template(
+            'livros/editar.html',
+            livro=livro,
+            generos=generos,
+            erro='O autor deve ter no máximo 100 caracteres'
+        )
+
     try:
-        preco = float(request.form['precoForm'].strip())
+        preco = float(request.form['precoForm'].strip().replace(',', '.'))
 
     except ValueError:
         return render_template(
             'livros/editar.html',
             livro=livro,
             generos=generos,
-            erro='O preço é obrigatório e deve ser um número'
+            erro='O preço é obrigatório e deve ser um número válido'
         )
 
-    if preco < 0:
+    if preco <= 0:
         return render_template(
             'livros/editar.html',
             livro=livro,
             generos=generos,
-            erro='O preço não pode ser negativo'
+            erro='O preço deve ser maior que zero'
         )
 
     try:
@@ -285,7 +347,7 @@ def editar(id):
             'livros/editar.html',
             livro=livro,
             generos=generos,
-            erro='O estoque é obrigatório e deve ser um número'
+            erro='O estoque é obrigatório e deve ser um número inteiro'
         )
 
     if estoque < 0:
@@ -299,12 +361,41 @@ def editar(id):
     try:
         genero_id = int(request.form['genero_id'].strip())
 
-    except ValueError:
+    except (ValueError, KeyError):
         return render_template(
             'livros/editar.html',
             livro=livro,
             generos=generos,
             erro='O gênero é obrigatório'
+        )
+
+    genero = Genero.query.filter_by(
+        id=genero_id,
+        empresa_id=current_user.empresa_id
+    ).first()
+
+    if not genero:
+        return render_template(
+            'livros/editar.html',
+            livro=livro,
+            generos=generos,
+            erro='Gênero selecionado é inválido'
+        )
+
+    # Verifica se já existe outro livro com mesmo título e autor na empresa
+    livro_duplicado = Livro.query.filter(
+        Livro.empresa_id == current_user.empresa_id,
+        func.lower(Livro.titulo) == titulo.lower(),
+        func.lower(Livro.autor) == autor.lower(),
+        Livro.id != id
+    ).first()
+
+    if livro_duplicado:
+        return render_template(
+            'livros/editar.html',
+            livro=livro,
+            generos=generos,
+            erro='Já existe outro livro cadastrado com este título e autor.'
         )
 
     

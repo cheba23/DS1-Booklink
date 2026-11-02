@@ -10,6 +10,16 @@ Funcionários
     Funcionários
 </h1>
 
+{% with mensagens = get_flashed_messages(with_categories=true) %}
+    {% if mensagens %}
+        {% for categoria, mensagem in mensagens %}
+            <div class="mensagem {{ categoria }}">
+                {{ mensagem }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 
 <!-- BUSCA -->
 
@@ -167,18 +177,16 @@ Funcionários
                         'admin'
                     ] %}
 
-                        <a
+                        <button
+                            type="button"
                             class="botao botao-deletar"
-                            href="{{ url_for(
-                                'funcionarios.deletar_funcionario',
-                                id=funcionario.id
-                            ) }}"
-                            onclick="return confirm(
-                                'Tem certeza que deseja excluir este usuário?'
+                            onclick="abrirModalExclusao(
+                                '{{ url_for('funcionarios.deletar_funcionario', id=funcionario.id) }}',
+                                {{ funcionario.nome|tojson|forceescape }}
                             )"
                         >
                             Excluir
-                        </a>
+                        </button>
 
                     {% endif %}
 
@@ -209,5 +217,90 @@ Funcionários
     </tbody>
 
 </table>
+
+<!-- MODAL DE EXCLUSÃO -->
+<div id="modal-exclusao" class="modal">
+
+    <div class="modal-conteudo">
+
+        <h2>Confirmar exclusão</h2>
+
+        <p>
+            Tem certeza que deseja excluir definitivamente
+            o usuário <strong id="nome-item-exclusao"></strong>?
+        </p>
+
+        <p>Esta ação não poderá ser desfeita.</p>
+
+        <form
+            id="form-exclusao"
+            method="POST"
+            class="modal-botoes"
+        >
+
+            <button
+                type="button"
+                class="botao"
+                onclick="fecharModalExclusao()"
+            >
+                Cancelar
+            </button>
+
+            <button
+                type="submit"
+                class="botao botao-deletar"
+            >
+                Sim, excluir
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+
+    function abrirModalExclusao(url, nomeItem) {
+
+        const modal = document.getElementById("modal-exclusao");
+        const form = document.getElementById("form-exclusao");
+        const nome = document.getElementById("nome-item-exclusao");
+
+        form.action = url;
+        nome.textContent = nomeItem;
+
+        modal.classList.add("is-active");
+    }
+
+    function fecharModalExclusao() {
+
+        document
+            .getElementById("modal-exclusao")
+            .classList.remove("is-active");
+
+    }
+
+    // Fechar modal com ESC
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "Escape") {
+            fecharModalExclusao();
+        }
+
+    });
+
+    // Fechar modal ao clicar fora do conteúdo
+    document.getElementById("modal-exclusao")
+        .addEventListener("click", function(event) {
+
+            if (event.target === this) {
+                fecharModalExclusao();
+            }
+
+        });
+
+</script>
 
 {% endblock %}

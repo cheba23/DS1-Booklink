@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from werkzeug.security import generate_password_hash
+from sqlalchemy import func
 
 from models import Empresa, Usuario
 from db import db
@@ -41,10 +42,22 @@ def registrar_empresa():
             erro='O nome da empresa é obrigatório'
         )
 
+    if len(nome_empresa) > 100:
+        return render_template(
+            'registrar_empresa.html',
+            erro='O nome da empresa deve ter no máximo 100 caracteres'
+        )
+
     if not cnpj:
         return render_template(
             'registrar_empresa.html',
             erro='O CNPJ é obrigatório'
+        )
+
+    if len(cnpj) != 14 or not cnpj.isdigit():
+        return render_template(
+            'registrar_empresa.html',
+            erro='Informe um CNPJ válido com 14 dígitos numéricos'
         )
 
     if not nome_dono:
@@ -53,16 +66,34 @@ def registrar_empresa():
             erro='O nome do dono é obrigatório'
         )
 
+    if len(nome_dono) > 100:
+        return render_template(
+            'registrar_empresa.html',
+            erro='O nome do dono deve ter no máximo 100 caracteres'
+        )
+
     if not email:
         return render_template(
             'registrar_empresa.html',
             erro='O e-mail é obrigatório'
         )
 
+    if '@' not in email or '.' not in email or len(email) > 100:
+        return render_template(
+            'registrar_empresa.html',
+            erro='Informe um e-mail válido'
+        )
+
     if not senha:
         return render_template(
             'registrar_empresa.html',
             erro='A senha é obrigatória'
+        )
+
+    if len(senha) < 6:
+        return render_template(
+            'registrar_empresa.html',
+            erro='A senha deve ter pelo menos 6 caracteres'
         )
 
 
@@ -85,8 +116,8 @@ def registrar_empresa():
     # VERIFICAR SE E-MAIL JÁ EXISTE
     # ==========================================
 
-    usuario_existente = Usuario.query.filter_by(
-        email=email
+    usuario_existente = Usuario.query.filter(
+        func.lower(Usuario.email) == email.lower()
     ).first()
 
     if usuario_existente:

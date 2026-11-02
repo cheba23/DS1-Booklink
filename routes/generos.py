@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
+from sqlalchemy import func
 
 from models import Genero, Livro
 from db import db
@@ -55,7 +56,7 @@ def editar_genero(id):
             genero=genero
         )
 
-    nome = request.form['nomeForm'].strip()
+    nome = request.form.get('nomeForm', '').strip()
 
     if not nome:
         return render_template(
@@ -64,9 +65,30 @@ def editar_genero(id):
             erro='O nome do gênero é obrigatório'
         )
 
+    if len(nome) > 50:
+        return render_template(
+            'generos/editar_genero.html',
+            genero=genero,
+            erro='O nome do gênero deve ter no máximo 50 caracteres'
+        )
+
+    genero_existente = Genero.query.filter(
+        Genero.empresa_id == current_user.empresa_id,
+        func.lower(Genero.nome) == nome.lower(),
+        Genero.id != id
+    ).first()
+
+    if genero_existente:
+        return render_template(
+            'generos/editar_genero.html',
+            genero=genero,
+            erro='Já existe outro gênero com este nome.'
+        )
+
     genero.nome = nome
 
     db.session.commit()
+    flash('Gênero atualizado com sucesso!', 'sucesso')
 
     return redirect(url_for('generos.listar_generos'))
 
@@ -75,7 +97,7 @@ def editar_genero(id):
 # DELETAR GÊNERO
 # ==========================================
 
-@generos_bp.route('/deletar-genero/<int:id>')
+@generos_bp.route('/deletar-genero/<int:id>', methods=['GET', 'POST'])
 @login_required
 def deletar_genero(id):
 
@@ -98,19 +120,13 @@ def deletar_genero(id):
     ).first()
 
     if livros:
-        generos = Genero.query.filter_by(
-            empresa_id=current_user.empresa_id
-        ).all()
-
-        return render_template(
-            'generos/generos.html',
-            generos=generos,
-            erro='Não é possível excluir um gênero que possui livros cadastrados.'
-        )
+        flash('Não é possível excluir um gênero que possui livros cadastrados.', 'erro')
+        return redirect(url_for('generos.listar_generos'))
 
     # Exclui o gênero
     db.session.delete(genero)
     db.session.commit()
+    flash('Gênero excluído definitivamente!', 'sucesso')
 
     return redirect(url_for('generos.listar_generos'))
 
@@ -129,12 +145,29 @@ def registrar_genero():
     if request.method == 'GET':
         return render_template('generos/registrar_genero.html')
 
-    nome = request.form['nomeForm'].strip()
+    nome = request.form.get('nomeForm', '').strip()
 
     if not nome:
         return render_template(
             'generos/registrar_genero.html',
             erro='O nome do gênero é obrigatório'
+        )
+
+    if len(nome) > 50:
+        return render_template(
+            'generos/registrar_genero.html',
+            erro='O nome do gênero deve ter no máximo 50 caracteres'
+        )
+
+    genero_existente = Genero.query.filter(
+        Genero.empresa_id == current_user.empresa_id,
+        func.lower(Genero.nome) == nome.lower()
+    ).first()
+
+    if genero_existente:
+        return render_template(
+            'generos/registrar_genero.html',
+            erro='Já existe um gênero cadastrado com este nome.'
         )
 
     novo_genero = Genero(
@@ -144,5 +177,6 @@ def registrar_genero():
 
     db.session.add(novo_genero)
     db.session.commit()
+    flash('Gênero cadastrado com sucesso!', 'sucesso')
 
     return redirect(url_for('generos.listar_generos'))

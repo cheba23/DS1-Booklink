@@ -21,9 +21,10 @@ Livros
     {% endif %}
 {% endwith %}
 
-
 <!-- BUSCA -->
-<form method="GET" action="{{ url_for('livros.listar_livros') }}" class="form-busca">
+<form method="GET"
+      action="{{ url_for('livros.listar_livros') }}"
+      class="form-busca">
 
     <input
         type="text"
@@ -38,15 +39,11 @@ Livros
 
 </form>
 
-
-<!-- BOTÃO CADASTRAR -->
-<a
-    href="{{ url_for('livros.registrar') }}"
-    class="botao botao-adicionar"
->
+<!-- CADASTRAR -->
+<a href="{{ url_for('livros.registrar') }}"
+   class="botao botao-adicionar">
     + Registrar Livro
 </a>
-
 
 <!-- TABELA -->
 <div class="table-container">
@@ -74,44 +71,34 @@ Livros
 
             <tr>
 
-                <!-- ID -->
-                <td>
-                    {{ livro.id }}
-                </td>
+                <td>{{ livro.id }}</td>
 
                 <!-- IMAGEM -->
                 <td>
-                    <img
-                        src="{{ url_for('static', filename='uploads/' ~ livro.imagem) }}"
-                        alt="Capa de {{ livro.titulo }}"
-                        class="imagem-livro"
-                    >
+                    {% if livro.imagem %}
+                        <img
+                            src="{{ url_for('static', filename='uploads/' ~ livro.imagem) }}"
+                            alt="Capa de {{ livro.titulo }}"
+                            class="imagem-livro"
+                        >
+                    {% else %}
+                        <span>Sem imagem</span>
+                    {% endif %}
                 </td>
 
-                <!-- TÍTULO -->
+                <td>{{ livro.titulo }}</td>
+
+                <td>{{ livro.autor }}</td>
+
                 <td>
-                    {{ livro.titulo }}
+                    {{ livro.genero.nome if livro.genero else 'Sem gênero' }}
                 </td>
 
-                <!-- AUTOR -->
-                <td>
-                    {{ livro.autor }}
-                </td>
-
-                <!-- GÊNERO -->
-                <td>
-                    {{ livro.genero.nome }}
-                </td>
-
-                <!-- PREÇO -->
                 <td>
                     R$ {{ "%.2f"|format(livro.preco) }}
                 </td>
 
-                <!-- ESTOQUE -->
-                <td>
-                    {{ livro.estoque }}
-                </td>
+                <td>{{ livro.estoque }}</td>
 
                 <!-- STATUS -->
                 <td>
@@ -122,9 +109,10 @@ Livros
                     {% endif %}
                 </td>
 
-                <!-- DATA DE CADASTRO -->
+                <!-- DATA -->
                 <td>
-                    {{ livro.data_cadastro.strftime('%d/%m/%Y %H:%M') }}
+                    {{ livro.data_cadastro.strftime('%d/%m/%Y %H:%M')
+                       if livro.data_cadastro else '-' }}
                 </td>
 
                 <!-- AÇÕES -->
@@ -138,52 +126,32 @@ Livros
                         Editar
                     </a>
 
-                    {% if livro.ativo %}
+                    <!-- ATIVAR / INATIVAR -->
+                    <form
+                        method="POST"
+                        action="{{ url_for('livros.toggle_livro', id=livro.id) }}"
+                        style="display: inline;"
+                        onsubmit="return confirmar(
+                            'Deseja realmente {{ 'inativar' if livro.ativo else 'reativar' }} este livro?'
+                        )"
+                    >
+                        <button type="submit" class="botao">
+                            {{ 'Inativar' if livro.ativo else 'Reativar' }}
+                        </button>
+                    </form>
 
-                        <!-- INATIVAR -->
-                        <form
-                            method="POST"
-                            action="{{ url_for('livros.toggle_livro', id=livro.id) }}"
-                            style="display: inline;"
-                            onsubmit="return confirm('Deseja realmente inativar este livro?')"
-                        >
-                            <button
-                                type="submit"
-                                class="botao"
-                            >
-                                Inativar
-                            </button>
-                        </form>
-
-                    {% else %}
-
-                        <!-- REATIVAR -->
-                        <form
-                            method="POST"
-                            action="{{ url_for('livros.toggle_livro', id=livro.id) }}"
-                            style="display: inline;"
-                            onsubmit="return confirm('Deseja reativar este livro?')"
-                        >
-                            <button
-                                type="submit"
-                                class="botao"
-                            >
-                                Reativar
-                            </button>
-                        </form>
-
-                        <!-- EXCLUIR DEFINITIVAMENTE -->
+                    <!-- EXCLUIR -->
+                    {% if not livro.ativo %}
                         <button
                             type="button"
                             class="botao botao-deletar"
                             onclick="abrirModalExclusao(
                                 '{{ url_for('livros.deletar', id=livro.id) }}',
-                                '{{ livro.titulo | e }}'
+                                {{ livro.titulo|tojson|forceescape }}
                             )"
                         >
                             Excluir
                         </button>
-
                     {% endif %}
 
                 </td>
@@ -192,7 +160,6 @@ Livros
 
             {% else %}
 
-            <!-- NENHUM LIVRO ENCONTRADO -->
             <tr>
                 <td colspan="10">
                     Nenhum livro encontrado.
@@ -204,8 +171,12 @@ Livros
         </tbody>
 
     </table>
+
+</div>
+
 <!-- MODAL DE EXCLUSÃO -->
 <div id="modal-exclusao" class="modal">
+
     <div class="modal-conteudo">
 
         <h2>Confirmar exclusão</h2>
@@ -220,25 +191,35 @@ Livros
         <form
             id="form-exclusao"
             method="POST"
+            class="modal-botoes"
         >
-            <button type="button"
-                    class="botao"
-                    onclick="fecharModalExclusao()">
+
+            <button
+                type="button"
+                class="botao"
+                onclick="fecharModalExclusao()"
+            >
                 Cancelar
             </button>
 
-            <button type="submit"
-                    class="botao botao-deletar">
+            <button
+                type="submit"
+                class="botao botao-deletar"
+            >
                 Sim, excluir
             </button>
+
         </form>
 
     </div>
-</div>
+
 </div>
 
+<!-- JAVASCRIPT -->
 <script>
+
     function abrirModalExclusao(url, tituloLivro) {
+
         const modal = document.getElementById("modal-exclusao");
         const form = document.getElementById("form-exclusao");
         const titulo = document.getElementById("nome-material-exclusao");
@@ -250,15 +231,32 @@ Livros
     }
 
     function fecharModalExclusao() {
+
         document
             .getElementById("modal-exclusao")
             .classList.remove("is-active");
+
     }
 
+    // Fechar modal com ESC
     document.addEventListener("keydown", function(event) {
+
         if (event.key === "Escape") {
             fecharModalExclusao();
         }
+
     });
+
+    // Fechar modal ao clicar fora do conteúdo
+    document.getElementById("modal-exclusao")
+        .addEventListener("click", function(event) {
+
+            if (event.target === this) {
+                fecharModalExclusao();
+            }
+
+        });
+
 </script>
+
 {% endblock %}

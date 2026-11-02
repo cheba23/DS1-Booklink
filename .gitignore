@@ -11,12 +11,12 @@ ENV/
 #configuração do editor VS CODE
 .vscode/
 
-#Arquivos de variaveis de ambientes
-.env
-
 # Banco de Dados local SQLite e pastas do flask
 *.db
 instance/
+
+#Arquivos de variaveis de ambientes
+.env
 
 # Ignora as imagens enviadas durante os testes
 static/uploads/*
